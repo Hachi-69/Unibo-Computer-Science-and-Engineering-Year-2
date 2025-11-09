@@ -12,18 +12,19 @@ import static it.unibo.inner.test.Assertions.assertContentEqualsInOrder;
 
 public class TestIterableWithPolicy {
 
-    private TestIterableWithPolicy() {}
+    private TestIterableWithPolicy() {
+    }
 
     private static <T> IterableWithPolicy<T> makeIterableWithPolicy(final T[] elements, final Predicate<T> filter) {
-        return null; // TODO: return the implementation of IterableWithPolicy
+        return new ImplementationOfIterableWithPolicy<>(elements, filter); // TODO: return the implementation of IterableWithPolicy
     }
 
     private static <T> IterableWithPolicy<T> makeIterableWithPolicy(final T[] elements) {
-        return null; // TODO: return the implementation of IterableWithPolicy
+        return new ImplementationOfIterableWithPolicy<>(elements);
     }
 
     public static void main(final String[] args) {
-        final String[] test1 = { "pippo", "pluto", "foo", "bar" };
+        final String[] test1 = {"pippo", "pluto", "foo", "bar"};
         // Create filters
         final Predicate<String> filterPippoPluto = new Predicate<>() {
             public boolean test(final String elem) {
@@ -70,7 +71,7 @@ public class TestIterableWithPolicy {
         final Product prod3 = new ProductImpl("Prod 3", 20);
         final Product prod4 = new ProductImpl("Prod 4", 35);
         final Product prod5 = new ProductImpl("Prod 5", 450);
-        final Product[] productsTest = { prod1, prod2, prod3, prod4, prod5 };
+        final Product[] productsTest = {prod1, prod2, prod3, prod4, prod5};
         final Predicate<Product> filterAllAvailable = new Predicate<Product>() {
             public boolean test(final Product elem) {
                 return elem.getQuantity() > 0;
