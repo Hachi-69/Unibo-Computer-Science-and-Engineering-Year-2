@@ -1,5 +1,7 @@
 # Compiled class file
 *.class
+*.bin
+*.lock
 
 # Log file
 *.log
@@ -22,3 +24,6 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+OOP/lab07/72-anonymous-nested-enum/build/*
+OOP/lab07/72-anonymous-nested-enum/.gradle/*
