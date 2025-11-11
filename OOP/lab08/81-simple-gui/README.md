@@ -24,5 +24,5 @@
 3. Test your application. Verify that you can see a new Text field, but it is useless
 
 ### Part 3
-1. Modify the application in such a way that the text field displays the same number that gets printed
+1. Modify the application in such a way that the text field displays the same number that gets printed X
 2. Test it

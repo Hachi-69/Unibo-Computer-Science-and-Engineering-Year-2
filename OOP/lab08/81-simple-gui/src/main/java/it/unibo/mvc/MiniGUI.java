@@ -3,12 +3,16 @@ package it.unibo.mvc;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+
+import javax.swing.BoxLayout;
 
 /**
  * This class is a simple application that writes a random number on a file.
@@ -22,7 +26,6 @@ public class MiniGUI {
 
     private static final String TITLE = "A very simple GUI application";
     private static final int PROPORTION = 5;
-    private final Random randomGenerator = new Random();
     private final JFrame frame = new JFrame(TITLE);
 
     /**
@@ -31,17 +34,30 @@ public class MiniGUI {
     public MiniGUI() {
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
-        final JButton write = new JButton("Print a random number on standard output");
+        final JButton write = new JButton("Print a random number");
         canvas.add(write, BorderLayout.CENTER);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        final JPanel jpnl = new JPanel();
+        jpnl.setLayout(new BoxLayout(jpnl, BoxLayout.X_AXIS));
+        canvas.add(jpnl, BorderLayout.CENTER);
+        jpnl.add(write);
+        final TextField result = new TextField();
+        canvas.add(result, BorderLayout.NORTH);
+
         /*
          * Handlers
          */
         write.addActionListener(new ActionListener() {
+            private final Random randomGenerator = new Random();
+
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println(randomGenerator.nextInt());
+                // required by the exercise
+                final int random = randomGenerator.nextInt();
+                System.out.println(random); //NOPMD
+                result.setText(String.valueOf(random));
             }
         });
     }
@@ -79,8 +95,7 @@ public class MiniGUI {
     /**
      * Launches the application.
      *
-     * @param args
-     *            ignored
+     * @param args ignored
      */
     public static void main(final String... args) {
         new MiniGUI().display();

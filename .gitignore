@@ -2,6 +2,7 @@
 *.class
 *.bin
 */nb-cache/trust/
+*/build/
 
 # Log file
 *.log
