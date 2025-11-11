@@ -1,11 +1,7 @@
 # Compiled class file
 *.class
 *.bin
-*.lock
-*.kts
-*.bat
-*/gradlew
-*.properties
+*/nb-cache/trust/
 
 # Log file
 *.log
