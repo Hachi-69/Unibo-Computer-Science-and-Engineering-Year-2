@@ -1,0 +1,5 @@
+uno due tre quattro cinque sei sette
+2uno 2due 2tre 2quattro 2cinque 2sei 2sette
+3uno 3due 3tre 3quattro 3cinque 3sei 3sette
+4un*o *4due 4tre 4quattro 4cinque 4sei 4set*te
+5uno 5due 5tr*e 5quattro 5cinque 5sei 5*sette
