@@ -72,6 +72,20 @@ public class BadIOGUI {
         jpnl.setLayout(new BoxLayout(jpnl, BoxLayout.X_AXIS));
         canvas.add(jpnl, BorderLayout.CENTER);
         jpnl.add(write);
+
+        final JButton read = new JButton("Read");
+        jpnl.add(read);
+        /*
+         * Handlers
+         */
+        read.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                // required by the exercise
+                System.out.println("Read Pressed!"); //NOPMD
+            }
+
+        });
     }
 
     private void display() {
