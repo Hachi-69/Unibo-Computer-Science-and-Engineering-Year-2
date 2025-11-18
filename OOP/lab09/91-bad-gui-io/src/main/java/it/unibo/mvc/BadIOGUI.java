@@ -1,10 +1,10 @@
 package it.unibo.mvc;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -14,9 +14,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.List;
 import java.util.Random;
+
+import javax.swing.BoxLayout;
 
 /**
  * This class is a simple application that writes a random number on a file.
@@ -67,6 +67,11 @@ public class BadIOGUI {
                 }
             }
         });
+
+        final JPanel jpnl = new JPanel();
+        jpnl.setLayout(new BoxLayout(jpnl, BoxLayout.X_AXIS));
+        canvas.add(jpnl, BorderLayout.CENTER);
+        jpnl.add(write);
     }
 
     private void display() {
@@ -88,6 +93,7 @@ public class BadIOGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+        frame.pack();
         /*
          * OK, ready to push the frame onscreen
          */
@@ -100,6 +106,6 @@ public class BadIOGUI {
      * @param args ignored
      */
     public static void main(final String... args) {
-       new BadIOGUI().display();
+        new BadIOGUI().display();
     }
 }
