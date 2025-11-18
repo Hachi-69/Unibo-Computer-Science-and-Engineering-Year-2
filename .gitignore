@@ -1,10 +1,11 @@
 # Compiled class file
 *.class
 *.bin
-*/nb-cache/trust/
-*/build/
+**/nb-cache/trust/**
+**/build/**
 
 # Log file
+**/tmp/**
 *.log
 
 # BlueJ files

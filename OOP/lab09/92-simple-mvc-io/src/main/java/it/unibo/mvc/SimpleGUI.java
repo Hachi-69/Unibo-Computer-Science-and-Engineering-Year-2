@@ -11,7 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import it.unibo.mvc.Controller;
 
 /**
  * A very simple program using a graphical interface.
@@ -29,8 +28,8 @@ public final class SimpleGUI {
     public SimpleGUI() {
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
-        JTextArea textArea = new JTextArea();
-        JButton btn = new JButton("Save");
+        final JTextArea textArea = new JTextArea();
+        final JButton btn = new JButton("Save");
         canvas.add(btn, BorderLayout.SOUTH);
         canvas.add(textArea, BorderLayout.CENTER);
 
@@ -39,14 +38,14 @@ public final class SimpleGUI {
         /*
          * Handlers
          */
-        Controller controller = new Controller();
+        final Controller controller = new Controller();
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 try {
                     controller.write(textArea.getText());
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                } catch (final IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
