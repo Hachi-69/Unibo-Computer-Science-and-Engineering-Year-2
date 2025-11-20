@@ -8,7 +8,6 @@ import java.util.Objects;
  * Application controller. Performs the I/O.
  */
 public final class Controller {
-
     private File currentFile = new File(
             System.getProperty("user.home")
                     + System.getProperty("file.separator")

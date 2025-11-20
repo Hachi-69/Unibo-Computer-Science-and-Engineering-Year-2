@@ -3,8 +3,6 @@ package it.unibo.mvc;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -39,19 +37,17 @@ public final class SimpleGUI {
          * Handlers
          */
         final Controller controller = new Controller();
-        btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                try {
-                    controller.write(textArea.getText());
-                } catch (final IOException ex) {
-                    ex.printStackTrace();
-                }
+        btn.addActionListener(e -> {
+            try {
+                controller.write(textArea.getText());
+            } catch (final IOException ex) {
+                ex.printStackTrace(); //NOPMD
             }
         });
     }
 
     private void display() {
+
         /*
          * Make the frame one fifth the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
@@ -64,6 +60,7 @@ public final class SimpleGUI {
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
         frame.setSize(sw / PROPORTION, sh / PROPORTION);
+
         /*
          * Instead of appearing at (0,0), upper left corner of the screen, this
          * flag makes the OS window manager take care of the default positioning
@@ -84,5 +81,4 @@ public final class SimpleGUI {
     public static void main(final String... args) {
         new SimpleGUI().display();
     }
-
 }
