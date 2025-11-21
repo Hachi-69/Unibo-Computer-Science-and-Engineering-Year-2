@@ -10,7 +10,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 /**
  * A very simple program using a graphical interface.
@@ -31,19 +33,21 @@ public final class SimpleGUIWithFileChooser {
         final JPanel inner = new JPanel();
         inner.setLayout(new BorderLayout());
 
-        final JTextField textArea = new JTextField();
+        final JTextField textField = new JTextField();
         final JButton browse = new JButton("Browse...");
         final JButton save = new JButton("Save");
+        final JTextArea textArea = new JTextArea();
 
         final Controller controller = new Controller();
 
-        textArea.setText(controller.getCurrentFilePath());
-        textArea.setEnabled(false);
+        textField.setText(controller.getCurrentFilePath());
+        textField.setEditable(false);
 
         canvas.add(inner, BorderLayout.NORTH);
-        inner.add(textArea, BorderLayout.CENTER);
+        inner.add(textField, BorderLayout.CENTER);
         inner.add(browse, BorderLayout.LINE_END);
         canvas.add(save, BorderLayout.SOUTH);
+        canvas.add(textArea,BorderLayout.CENTER);
 
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,7 +63,7 @@ public final class SimpleGUIWithFileChooser {
                 }
                 default -> JOptionPane.showMessageDialog(frame, "an error has occurred");
             }
-            textArea.setText(controller.getCurrentFilePath());
+            textField.setText(controller.getCurrentFilePath());
         });
 
         save.addActionListener(e -> {
