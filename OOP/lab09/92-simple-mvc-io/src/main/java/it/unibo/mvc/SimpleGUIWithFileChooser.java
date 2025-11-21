@@ -12,11 +12,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 /**
  * A very simple program using a graphical interface.
- * 
+ *
  */
 public final class SimpleGUIWithFileChooser {
 
@@ -47,7 +46,7 @@ public final class SimpleGUIWithFileChooser {
         inner.add(textField, BorderLayout.CENTER);
         inner.add(browse, BorderLayout.LINE_END);
         canvas.add(save, BorderLayout.SOUTH);
-        canvas.add(textArea,BorderLayout.CENTER);
+        canvas.add(textArea, BorderLayout.CENTER);
 
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,10 +57,12 @@ public final class SimpleGUIWithFileChooser {
         browse.addActionListener(e -> {
             final JFileChooser fileChooser = new JFileChooser();
             switch (fileChooser.showSaveDialog(canvas)) {
-                case JFileChooser.APPROVE_OPTION -> controller.setCurrentFile(fileChooser.getSelectedFile());
+                case JFileChooser.APPROVE_OPTION ->
+                    controller.setCurrentFile(fileChooser.getSelectedFile());
                 case JFileChooser.CANCEL_OPTION -> {
                 }
-                default -> JOptionPane.showMessageDialog(frame, "an error has occurred");
+                default ->
+                    JOptionPane.showMessageDialog(frame, "an error has occurred");
             }
             textField.setText(controller.getCurrentFilePath());
         });
