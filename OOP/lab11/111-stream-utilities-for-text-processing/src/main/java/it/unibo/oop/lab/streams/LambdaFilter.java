@@ -7,8 +7,11 @@ import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.io.Serial;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -18,8 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 /**
- * Modify this small program adding new filters.
- * Realize this exercise using as much as possible the Stream library.
+ * Modify this small program adding new filters. Realize this exercise using as
+ * much as possible the Stream library.
  * <br>
  * 1) Convert to lowercase
  * <br>
@@ -29,7 +32,8 @@ import javax.swing.JTextArea;
  * <br>
  * 4) List all the words in alphabetical order
  * <br>
- * 5) Write the count for each word, e.g. "word word pippo" should output "pippo -> 1 word -> 2"
+ * 5) Write the count for each word, e.g. "word word pippo" should output "pippo
+ * -> 1 word -> 2"
  *
  */
 public final class LambdaFilter extends JFrame {
@@ -41,12 +45,27 @@ public final class LambdaFilter extends JFrame {
         /**
          * Commands.
          */
-        IDENTITY("No modifications", Function.identity());
+        IDENTITY("No modifications", Function.identity()),
+        TO_LOWER("Lower Case", String::toLowerCase),
+        COUNT("Count chars", s -> String.valueOf(s.length())),
+        COUNT_LINES("Count lines", s -> String.valueOf(s.lines().count())),
+        WORDS_LIST("Words list alphabetical", s -> Arrays.stream(s.split("\\W+"))
+                .filter(word -> !word.isEmpty())
+                .sorted(Comparator.comparing(String::toLowerCase))
+                .collect(Collectors.joining("\n"))),
+        WORDS_COUNT("Count word frequencies", s -> Arrays.stream(s.split("\\W+"))
+                .filter(word -> !word.isEmpty())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .map(e -> e.getKey() + " -> " + e.getValue())
+                .collect(Collectors.joining(" ")));
 
         private final String commandName;
         private final Function<String, String> fun;
 
-        Command(final String name, final Function<String, String> process) {
+        Command(
+                final String name, final Function<String, String> process
+        ) {
             commandName = name;
             fun = process;
         }
@@ -79,11 +98,11 @@ public final class LambdaFilter extends JFrame {
         centralPanel.add(right);
         panel1.add(centralPanel, BorderLayout.CENTER);
         final JButton apply = new JButton("Apply");
-        apply.addActionListener(ev ->
-            right.setText(
-                ((Command) Objects.requireNonNull(combo.getSelectedItem()))
-                    .translate(left.getText())
-            )
+        apply.addActionListener(ev
+                -> right.setText(
+                        ((Command) Objects.requireNonNull(combo.getSelectedItem()))
+                                .translate(left.getText())
+                )
         );
         panel1.add(apply, BorderLayout.SOUTH);
         setContentPane(panel1);
