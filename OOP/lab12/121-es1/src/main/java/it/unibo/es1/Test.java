@@ -32,7 +32,7 @@ public final class Test {
      * @param args ignored
      */
     public static void main(final String... args) {
-        new GUI(4);
+        new GUI(4); 
     }
 
 }
