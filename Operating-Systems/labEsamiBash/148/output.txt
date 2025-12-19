@@ -1,0 +1,18 @@
+Copyright (C) 2024-2025 Free Software Foundation, Inc.
+This file is part of the GNU C Library.
+
+This file is part of the GNU C Library.
+
+The GNU C Library is free software; you can redistribute it and/or
+This file is part of the GNU C Library.
+
+The GNU C Library is free software; you can redistribute it and/or
+Copyright (C) 2000-2025 Free Software Foundation, Inc.
+This file is part of the GNU C Library.
+
+Copyright (C) 1991-2025 Free Software Foundation, Inc.
+Copyright The GNU Toolchain Authors.
+This file is part of the GNU C Library.
+Copyright The GNU Toolchain Authors.
+This file is part of the GNU C Library.
+
