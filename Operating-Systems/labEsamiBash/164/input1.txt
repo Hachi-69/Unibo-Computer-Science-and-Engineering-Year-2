@@ -1,0 +1,6 @@
+gatto,52,vacca
+alfa,31,triangolo
+orto,9,bici
+zappa,69,guzzi
+disco,12,celentano
+
