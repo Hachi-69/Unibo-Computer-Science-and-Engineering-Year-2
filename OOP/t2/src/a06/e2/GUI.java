@@ -10,8 +10,9 @@ public class GUI extends JFrame {
 
     private static final long serialVersionUID = -6218820567019985015L;
     private final List<JButton> cells = new ArrayList<>();
-    private final model m = new modelImpl();
-    private final Map<JButton, Integer> map = new HashMap<>();
+    private final Model m = new ModelImpl();
+    // Mappa per ricordarci quale bottone corrisponde a quale posizione logica
+    private final Map<JButton, Position> buttonsMap = new HashMap<>();
 
     public GUI(int width) {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -22,36 +23,57 @@ public class GUI extends JFrame {
 
         ActionListener al = e -> {
             var jb = (JButton) e.getSource();
-            jb.setText(String.valueOf(map.get(jb)));
+
+            // 1. Recuperi la posizione del bottone cliccato dalla mappa della View
+            Position pos = buttonsMap.get(jb);
+
+            // 2. Chiedi al model il valore in quella posizione
+            int val = m.getNumberAt(pos);
+
+            // Mostri il valore
+            jb.setText(String.valueOf(val));
+
             if (m.hideAfterTwo()) {
                 cells.stream()
                         .filter(b -> b.isEnabled())
                         .forEach(b -> b.setText(""));
             } else {
-                if (m.isEqual(map.get(jb))) {
+                if (m.isEqual(val)) { // Passi il valore (int) invece di map.get(jb)
                     cells.stream()
                             .filter(b -> b.isEnabled())
-                            .filter(b -> Objects.equals(map.get(b), map.get(jb)))
+                            // QUI CAMBIA LA LOGICA DI FILTRAGGIO:
+                            // Per ogni bottone 'b', recuperi la sua posizione e chiedi al model se il
+                            // valore corrisponde a 'val'
+                            .filter(b -> m.getNumberAt(buttonsMap.get(b)) == val)
                             .filter(b -> !"".equals(b.getText()))
-                            .forEach(b -> {
-                                b.setEnabled(false);
-                                b.setText(String.valueOf(map.get(b)));
-                            });
+                            .forEach(b -> b.setEnabled(false));
+                    if (m.isGameOver()) {
+                        // Se è finita, disabilitiamo TUTTI i bottoni rimasti
+                        cells.forEach(b -> b.setEnabled(false));
+                    }
                 }
             }
         };
 
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < width; j++) {
+        m.initGame(width);
+
+        // 2. Crea la griglia grafica
+        for (int i = 0; i < width; i++) { // i = riga (y)
+            for (int j = 0; j < width; j++) { // j = colonna (x)
                 final JButton jb = new JButton();
+
+                // Aggiungiamo il bottone alla lista (utile per disabilitarli tutti alla fine)
                 this.cells.add(jb);
+
+                // Mappiamo il bottone fisico alla sua coordinata logica (x, y)
+                // Nota: Position(x, y) -> x è la colonna (j), y è la riga (i)
+                this.buttonsMap.put(jb, new Position(j, i));
+
                 jb.addActionListener(al);
                 panel.add(jb);
             }
         }
-        for (int i = 0; i < width * width; i++) {
-            map.put(cells.get(i), m.createRandomNumbers());
-        }
+
         this.setVisible(true);
     }
 
