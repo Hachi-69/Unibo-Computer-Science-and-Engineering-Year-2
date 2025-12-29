@@ -28,9 +28,8 @@ public class GUI extends JFrame {
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
                     final int index = i * size + j;
-                    int number = logic.getNumberAt(new Pair<>(i, j));
-                    cells.get(index).setText(String.valueOf(
-                            (number == 0 ? "" : number)));
+                    final int number = logic.getNumberAt(new Pair<>(i, j));
+                    cells.get(index).setText(String.valueOf((number == 0 ? "" : number)));
                 }
             }
         });

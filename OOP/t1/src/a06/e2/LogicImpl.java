@@ -14,7 +14,7 @@ public class LogicImpl implements Logic {
         this.size = size;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                int val = this.rnd.nextInt(1, 3);
+                final int val = this.rnd.nextInt(1, 3);
                 this.grid.put(new Pair<>(i, j), val);
             }
         }
@@ -34,11 +34,11 @@ public class LogicImpl implements Logic {
                 if (collapsed) {
                     break;
                 }
-                Pair<Integer, Integer> currentPos = new Pair<>(i, j);
-                Pair<Integer, Integer> abovePos = new Pair<>(i - 1, j);
+                final Pair<Integer, Integer> currentPos = new Pair<>(i, j);
+                final Pair<Integer, Integer> abovePos = new Pair<>(i - 1, j);
 
-                int currentVal = this.grid.get(currentPos);
-                int aboveVal = this.grid.get(abovePos);
+                final int currentVal = this.grid.get(currentPos);
+                final int aboveVal = this.grid.get(abovePos);
 
                 if (currentVal != 0 && currentVal == aboveVal) {
                     this.grid.put(currentPos, currentVal + aboveVal);
