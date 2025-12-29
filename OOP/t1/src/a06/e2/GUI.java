@@ -1,0 +1,41 @@
+package a06.e2;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import java.util.List;
+import javax.swing.*;
+
+public class GUI extends JFrame {
+
+    private final List<JButton> cells = new ArrayList<>();
+
+    public GUI(int size) {
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setSize(100 * size, 100 * size);
+
+        JPanel main = new JPanel(new BorderLayout());
+        JPanel panel = new JPanel(new GridLayout(size, size));
+        this.getContentPane().add(main);
+        main.add(BorderLayout.CENTER, panel);
+        JButton go = new JButton("Go");
+        main.add(BorderLayout.SOUTH, go);
+        go.addActionListener(e -> System.exit(0));
+
+        ActionListener al = e -> {
+            var button = (JButton) e.getSource();
+            var position = cells.indexOf(button);
+            button.setText("" + position);
+        };
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                final JButton jb = new JButton(" ");
+                this.cells.add(jb);
+                jb.addActionListener(al);
+                panel.add(jb);
+            }
+        }
+        this.setVisible(true);
+    }
+}
