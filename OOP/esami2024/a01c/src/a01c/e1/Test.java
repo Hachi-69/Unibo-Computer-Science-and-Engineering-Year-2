@@ -33,7 +33,7 @@ public class Test {
 
 	@org.junit.Before
 	public void initFactory() {
-		// this.factory = new SimpleIteratorFactoryImpl();
+		this.factory = new SimpleIteratorFactoryImpl();
 	}
 
 	// una utility per facilitare il testing, che verifica se i prossimi elementi generati dall'iteratore 
@@ -119,7 +119,7 @@ public class Test {
 		it = this.factory.window(5, this.factory.naturals());
 		assertEquals(List.of(0,1,2,3,4), it.next());
 		assertEquals(List.of(1,2,3,4,5), it.next());
-		for (int i = 0; i < 100; i++){
+		for (int i = 0; i < 0x64; i++){
 			it.next();
 		}
 		assertEquals(List.of(102,103,104,105,106), it.next());
