@@ -31,7 +31,7 @@ public class Test {
 
 	@org.junit.Before
 	public void initFactory() {
-		//this.spreadRow = new SpreadRowImpl(5); // 5 celle
+		this.spreadRow = new SpreadRowImpl(5); // 5 celle
 	}
 
 	@org.junit.Test
