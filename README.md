@@ -23,7 +23,7 @@ This repository contains my projects, assignments, and exercises from the second
 
 * **Topics:** Floating-point arithmetic and error analysis, root-finding algorithms (Newton-Raphson), linear systems (direct/iterative methods, LU, QR, SVD factorizations), least squares, interpolation, and numerical integration. Introduction to AI: Neural Networks (MLP, CNN), forward/backward propagation, and loss function optimization (Gradient Descent, Adam, RMSProp).
 
-* **Repository Folder:** `Numerical Methods for Artificial Intelligence`
+* **Repository Folder:** `Numerical-Methods-for-Artificial-Intelligence`
 
 ---
 
