@@ -18,6 +18,13 @@ This repository contains my projects, assignments, and exercises from the second
 
 * **Repository Folder:** `Operating-Systems`
 
+### 3. Numerical Calculus and Machine Learning
+* **Description:** Projects and exercises focusing on numerical analysis, computational mathematics, and the mathematical foundations of Artificial Intelligence.
+
+* **Topics:** Floating-point arithmetic and error analysis, root-finding algorithms (Newton-Raphson), linear systems (direct/iterative methods, LU, QR, SVD factorizations), least squares, interpolation, and numerical integration. Introduction to AI: Neural Networks (MLP, CNN), forward/backward propagation, and loss function optimization (Gradient Descent, Adam, RMSProp).
+
+* **Repository Folder:** `Numerical Methods for Artificial Intelligence`
+
 ---
 
 ## License
