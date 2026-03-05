@@ -33,6 +33,7 @@ replay_pid*
 .ipynb_checkpoints/
 */.ipynb_checkpoints/
 jupyter_workspace/
+**/.virtual_documents/**
 
 # Python Cache & Bytecode
 __pycache__/
