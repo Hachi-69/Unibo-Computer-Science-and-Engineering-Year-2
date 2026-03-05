@@ -27,3 +27,20 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+
+# Jupyter
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+jupyter_workspace/
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# File di Dati e Log
+*.csv
+*.dat
+*.out
+*.log
