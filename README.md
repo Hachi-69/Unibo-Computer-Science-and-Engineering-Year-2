@@ -30,7 +30,7 @@ This repository contains my projects, assignments, and exercises from the second
 
 * **Topics:** RDBMS architecture, data models and relational model, conceptual design (Entity-Relationship) and logical design, normal forms (1NF, 2NF, 3NF, BCNF), relational algebra, SQL (DDL, DML, DCL), transactions (ACID properties, concurrency control), data organization (B-trees), database application development (Java, C#), client-server architectures, and introduction to NoSQL systems.
 
-* **Repository Folder:** `databases`
+* **Repository Folder:** `Databases`
 
 ---
 
