@@ -28,6 +28,7 @@ Ci servirà un dato calcolato da poter analizzare nella fase 3 del progetto (per
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ### Gestione di una Rete di Parchi Naturali
 
 L’obiettivo del progetto è realizzare un sistema informatico di supporto per un consorzio che gestisce una rete di **parchi naturali**, con lo scopo di monitorarne la biodiversità, il personale addetto e lo stato di salute degli animali.
