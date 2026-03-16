@@ -96,3 +96,45 @@ Risiede (1:N): Tra ESEMPLARE e PARCO (un animale sta in un solo parco in quel mo
 Esegue (1:N): Tra VETERINARIO e VISITA_MEDICA (un veterinario fa tante visite).
 
 Riceve (1:N): Tra ESEMPLARE e VISITA_MEDICA (un esemplare può subire più visite nel tempo).
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+Ora entriamo nel vivo del rigore matematico richiesto da un progetto di ingegneria. Passiamo alla **Fase 3: Progettazione Logica**.
+
+Il primo passo, come indicato nelle linee guida che stiamo seguendo, è la **Stima del volume dei dati** e la **Stima della frequenza delle operazioni**. Queste due tabelle sono fondamentali: senza questi numeri non potremo calcolare i costi delle operazioni (i famosi "Accessi in Lettura e Scrittura") per decidere come tradurre le gerarchie e se mantenere le ridondanze.
+
+### 1. Stima del Volume dei Dati
+
+Dobbiamo ipotizzare quante "righe" (o istanze) avrà ogni entità a regime, ad esempio dopo qualche anno di utilizzo del sistema. Per rendere il progetto credibile, i numeri devono essere coerenti tra loro.
+
+Ti propongo una bozza di stima. Prova a leggerla e dimmi se le grandezze ti sembrano sensate per il dominio che hai in mente:
+
+* **PARCO:** Immaginiamo un consorzio regionale. Potremmo stimare circa **10** parchi.
+* **SPECIE_FLORA:** Il catalogo botanico. Diciamo circa **300** specie catalogate.
+* **SPECIE_FAUNA:** Il catalogo zoologico. Diciamo circa **150** specie.
+* **DIPENDENTE:** Tra guardiaparco, veterinari e amministrativi, stimiamo circa **100** dipendenti totali.
+* Di cui **GUARDIAPARCO**: 60
+* Di cui **VETERINARIO**: 30
+* (I restanti 10 sono semplici dipendenti/amministratori).
+
+
+* **ESEMPLARE:** Quanti animali fisici stiamo monitorando attivamente nei 10 parchi? Se stimiamo circa 200 animali a parco, arriviamo a **2.000** esemplari.
+* **VISITA_MEDICA:** Questo è il dato più dinamico. Se ogni esemplare riceve in media 2 visite all'anno, e calcoliamo lo storico su 5 anni di utilizzo del database: $2.000 \text{ esemplari} \times 2 \text{ visite} \times 5 \text{ anni} =$ **20.000** visite mediche storicizzate.
+
+Cosa ne pensi di questi volumi? Se ti convincono, li "congeliamo" in una tabella.
+
+### 2. Le Operazioni Principali
+
+Il passo successivo è stilare l'elenco delle query/operazioni che l'applicazione web eseguirà più spesso, e stimare quante volte al giorno o alla settimana vengono lanciate.
+Sulla base della nostra proposta, le classiche operazioni potrebbero essere:
+
+**Operazioni Interattive (Frequenti):**
+
+1. *Registrazione di una nuova visita medica* (Frequenza: es. 15 volte al giorno).
+2. *Inserimento di un nuovo esemplare nato/arrivato* (Frequenza: es. 2 volte al giorno).
+3. *Visualizzazione dello storico medico di un singolo esemplare* (Frequenza: es. 20 volte al giorno).
+
+**Operazioni Statistiche (Meno frequenti, ma "pesanti" per il DB):**
+4.  *Generazione classifica dei parchi con maggiore biodiversità* (Frequenza: 1 volta a settimana).
+5.  *Individuazione della specie a maggior rischio (calcolo sulle visite critiche)* (Frequenza: 1 volta al mese).
+
