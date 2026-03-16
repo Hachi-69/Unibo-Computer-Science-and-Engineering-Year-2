@@ -1,0 +1,141 @@
+# Parchi Naturali
+
+L'idea di riciclare il dominio dei Parchi Naturali è **ottima**. Scegliere un argomento che già conosci ti farà risparmiare un sacco di tempo in fase di analisi, permettendoti di concentrarti su quello che il professore valuterà davvero: l'applicazione rigorosa della teoria.
+
+Ho analizzato il tuo file `turilloparchinaturali.sql`. Lo scheletro di base c'è ed è proporzionato per una persona (hai circa 8 tabelle principali: Parchi, Guardiani, Ordini, Specie, Flora, Fauna).
+
+Tuttavia, strutturato così com'è adesso, è un po' troppo "da scuole superiori". Per renderlo un progetto da **30 e lode a Ingegneria**, dobbiamo fare un "upgrade" e inserire quegli elementi teorici avanzati richiesti dalle linee guida.
+
+Ecco cosa manca e come possiamo integrarlo per fare il salto di qualità:
+
+### 1. Inserire una Gerarchia (Generalizzazione) 
+
+Nel tuo SQL attuale, `guardiani` è una tabella a sé stante.
+
+* **L'Upgrade:** Creiamo un'entità padre **PERSONALE** (con attributi comuni come Matricola, Nome, Cognome, Data Assunzione). Da questa facciamo derivare due entità figlie: i **GUARDIAPARCO** (assegnati al pattugliamento dei parchi) e i **VETERINARI** (specializzati nella cura degli animali, con un attributo come `Specializzazione` o `NumeroAlbo`).
+
+### 2. Inserire la Storicizzazione (Lo storico nel tempo)
+
+Nel tuo DB, un animale (`fauna`) ha uno stato di salute (`S`/`M`). Ma in un database reale, la salute cambia nel tempo e va tracciata.
+
+* **L'Upgrade:** Introduciamo l'entità **VISITA MEDICA** (o INTERVENTO). È una relazione tra il `Veterinario`, l'`Animale` e la `Data/Ora`. Qui salveremo l'esito della visita e l'eventuale cura. In questo modo creiamo uno storico perfetto di tutte le cure mediche di ogni singolo animale.
+
+### 3. Predisporre una Ridondanza
+
+Ci servirà un dato calcolato da poter analizzare nella fase 3 del progetto (per dimostrare se conviene o meno tenerlo).
+
+* **L'Upgrade:** Potremmo aggiungere l'attributo `NumeroEsemplari` nell'entità `SpecieFauna` (che si aggiorna in automatico contando quanti animali di quella specie ci sono nel DB), oppure `TotaleInterventi` per ogni animale.
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### Gestione di una Rete di Parchi Naturali
+
+L’obiettivo del progetto è realizzare un sistema informatico di supporto per un consorzio che gestisce una rete di **parchi naturali**, con lo scopo di monitorarne la biodiversità, il personale addetto e lo stato di salute degli animali.
+
+Il sistema memorizza le informazioni relative a ciascun **parco** (nome, regione, superficie in ettari). Il consorzio impiega del **personale**, di cui si registrano i dati anagrafici e di contatto. Il personale si divide in due categorie specializzate: i **Guardiaparco**, che vengono assegnati al pattugliamento di uno o più parchi, e i **Veterinari**, di cui si memorizza lo specifico numero di iscrizione all'albo e la specializzazione.
+
+Il database gestisce un catalogo generale della biodiversità diviso in **specie faunistiche** (con nome scientifico, ordine di appartenenza, mesi necessari per raggiungere l'età adulta e rischio di estinzione) e **specie floristiche** (tipo di pianta, stagione di fioritura). Il sistema tiene traccia di quali specie di flora crescono all'interno di ogni parco.
+
+Il cuore del sistema è il monitoraggio dei singoli **esemplari** di fauna fisicamente presenti nei parchi. Di ogni animale si registra un codice identificativo, il sesso, la data di nascita, la specie di appartenenza e il parco in cui risiede attualmente.
+
+Per garantire la tutela degli animali, un Veterinario può registrare una **visita medica** per un esemplare. Il sistema mantiene lo storico di tutti gli interventi, memorizzando la data, l'ora, l'esito della visita (stato di salute buono o critico) e l'eventuale terapia prescritta.
+
+Le funzionalità offerte dalla piattaforma per il personale operativo (Veterinari e Guardiaparco) sono le seguenti:
+
+* Registrare la nascita o l'arrivo di un nuovo esemplare di fauna all'interno di un parco.
+* Inserire i dati di una nuova visita medica effettuata su un esemplare, indicandone l'esito.
+* Consultare lo storico medico completo di uno specifico animale.
+* Visualizzare l'elenco di tutte le specie floristiche presenti nel parco in cui si sta operando.
+
+Inoltre, sarà possibile consultare **informazioni aggregate** a scopo statistico e di ricerca:
+
+* Ottenere la "Top 3" dei parchi con la maggiore biodiversità (ovvero quelli che ospitano il maggior numero di specie faunistiche distinte).
+* Ottenere una lista dei veterinari che hanno effettuato almeno 50 visite mediche nell'ultimo anno solare.
+* Individuare la specie faunistica a maggior rischio, calcolando per ogni specie la percentuale di esemplari che si trovano attualmente in uno stato di salute "critico".
+* Ottenere un elenco dei parchi in cui non è stata registrata alcuna visita medica negli ultimi 6 mesi.
+
+Infine, l’**amministratore** del sistema potrà:
+
+* Registrare nuovi parchi all'interno del consorzio.
+* Assumere nuovo personale, specificando se si tratta di un Guardiaparco (assegnandogli le zone di competenza) o di un Veterinario.
+* Inserire nuove specie nel catalogo generale della flora e della fauna.
+* Registrare il trasferimento di un esemplare di fauna da un parco a un altro.
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Le Entità principali:
+
+PARCO: L'area naturale vera e propria.
+
+DIPENDENTE: Il personale generale.
+
+SPECIE_FAUNA: Il catalogo teorico degli animali.
+
+SPECIE_FLORA: Il catalogo teorico delle piante.
+
+ESEMPLARE: Il singolo animale fisico (il "leone Simba", non la specie leone).
+
+VISITA_MEDICA: L'evento storico dell'intervento medico.
+
+La Gerarchia:
+
+DIPENDENTE è l'entità padre. Con una freccia verso l'alto (triangolo), derivano le due entità figlie: GUARDIAPARCO e VETERINARIO.
+
+Le Associazioni (I collegamenti logici):
+
+Pattuglia (N:M): Tra GUARDIAPARCO e PARCO (un guardiaparco controlla più parchi, un parco è controllato da più guardiaparchi).
+
+Cresce (N:M): Tra PARCO e SPECIE_FLORA (quali piante si trovano in quali parchi).
+
+Appartiene (1:N): Tra ESEMPLARE e SPECIE_FAUNA (un esemplare appartiene a una sola specie, una specie ha molti esemplari).
+
+Risiede (1:N): Tra ESEMPLARE e PARCO (un animale sta in un solo parco in quel momento).
+
+Esegue (1:N): Tra VETERINARIO e VISITA_MEDICA (un veterinario fa tante visite).
+
+Riceve (1:N): Tra ESEMPLARE e VISITA_MEDICA (un esemplare può subire più visite nel tempo).
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+Ora entriamo nel vivo del rigore matematico richiesto da un progetto di ingegneria. Passiamo alla **Fase 3: Progettazione Logica**.
+
+Il primo passo, come indicato nelle linee guida che stiamo seguendo, è la **Stima del volume dei dati** e la **Stima della frequenza delle operazioni**. Queste due tabelle sono fondamentali: senza questi numeri non potremo calcolare i costi delle operazioni (i famosi "Accessi in Lettura e Scrittura") per decidere come tradurre le gerarchie e se mantenere le ridondanze.
+
+### 1. Stima del Volume dei Dati
+
+Dobbiamo ipotizzare quante "righe" (o istanze) avrà ogni entità a regime, ad esempio dopo qualche anno di utilizzo del sistema. Per rendere il progetto credibile, i numeri devono essere coerenti tra loro.
+
+Ti propongo una bozza di stima. Prova a leggerla e dimmi se le grandezze ti sembrano sensate per il dominio che hai in mente:
+
+* **PARCO:** Immaginiamo un consorzio regionale. Potremmo stimare circa **10** parchi.
+* **SPECIE_FLORA:** Il catalogo botanico. Diciamo circa **300** specie catalogate.
+* **SPECIE_FAUNA:** Il catalogo zoologico. Diciamo circa **150** specie.
+* **DIPENDENTE:** Tra guardiaparco, veterinari e amministrativi, stimiamo circa **100** dipendenti totali.
+* Di cui **GUARDIAPARCO**: 60
+* Di cui **VETERINARIO**: 30
+* (I restanti 10 sono semplici dipendenti/amministratori).
+
+
+* **ESEMPLARE:** Quanti animali fisici stiamo monitorando attivamente nei 10 parchi? Se stimiamo circa 200 animali a parco, arriviamo a **2.000** esemplari.
+* **VISITA_MEDICA:** Questo è il dato più dinamico. Se ogni esemplare riceve in media 2 visite all'anno, e calcoliamo lo storico su 5 anni di utilizzo del database: $2.000 \text{ esemplari} \times 2 \text{ visite} \times 5 \text{ anni} =$ **20.000** visite mediche storicizzate.
+
+Cosa ne pensi di questi volumi? Se ti convincono, li "congeliamo" in una tabella.
+
+### 2. Le Operazioni Principali
+
+Il passo successivo è stilare l'elenco delle query/operazioni che l'applicazione web eseguirà più spesso, e stimare quante volte al giorno o alla settimana vengono lanciate.
+Sulla base della nostra proposta, le classiche operazioni potrebbero essere:
+
+**Operazioni Interattive (Frequenti):**
+
+1. *Registrazione di una nuova visita medica* (Frequenza: es. 15 volte al giorno).
+2. *Inserimento di un nuovo esemplare nato/arrivato* (Frequenza: es. 2 volte al giorno).
+3. *Visualizzazione dello storico medico di un singolo esemplare* (Frequenza: es. 20 volte al giorno).
+
+**Operazioni Statistiche (Meno frequenti, ma "pesanti" per il DB):**
+4.  *Generazione classifica dei parchi con maggiore biodiversità* (Frequenza: 1 volta a settimana).
+5.  *Individuazione della specie a maggior rischio (calcolo sulle visite critiche)* (Frequenza: 1 volta al mese).
+
