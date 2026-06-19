@@ -1,0 +1,95 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Parchi Naturali</title>
+    <style>
+        @font-face {
+            font-family: 'font';
+            src: url('font.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            background-color: #032217;
+            color: #000000;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            font-family: 'font', Arial, sans-serif;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background-color: #FFB100;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 2px dashed white;
+        }
+
+        .login-container h2 {
+            color: #000000;
+        }
+
+        .login-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #000000;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #343331;
+            border-radius: 4px;
+        }
+
+        .form-group button {
+            background-color: #343331;
+            color: #FFB100;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #9e6f00;
+            color: #252525;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <form class="login-form" action="login.php" method="post" >
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                </br></br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                </br> </br>
+                <button type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>
