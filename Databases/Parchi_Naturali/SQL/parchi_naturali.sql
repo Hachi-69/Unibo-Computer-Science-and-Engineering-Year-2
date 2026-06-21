@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 20, 2026 at 01:46 AM
+-- Generation Time: Jun 21, 2026 at 02:50 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -361,13 +361,13 @@ CREATE TABLE `PERMANENZA` (
 --
 
 INSERT INTO `PERMANENZA` (`Nome_Parco`, `Nome_Specie_Fauna`, `Nome_Esemplare`, `Data_Inizio`, `Data_Fine`, `Modalita_Ingresso`) VALUES
-('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Camoscio d\'Abruzzo', 'CAM-01', '2021-07-20', NULL, 'Nascita in loco'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Camoscio d\'Abruzzo', 'CAM-01', '2021-07-20', NULL, 'Reintroduzione'),
 ('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Camoscio d\'Abruzzo', 'CAM-03', '2019-10-01', NULL, 'Nascita in loco'),
-('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Capriolo', 'CAP-03', '2021-02-28', NULL, 'Nascita in loco'),
-('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Cervo nobile', 'CER-03', '2020-01-15', NULL, 'Nascita in loco'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Capriolo', 'CAP-03', '2021-02-28', NULL, 'Cattura e ricollocamento'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Cervo nobile', 'CER-03', '2020-01-15', NULL, 'Scambio genetico inter-parco'),
 ('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Cinghiale', 'CIN-05', '2020-09-10', NULL, 'Sconfinamento spontaneo'),
 ('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Grifone', 'GRI-01', '2018-03-10', '2020-04-15', 'Reintroduzione'),
-('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Gufo reale', 'GUF-02', '2021-06-20', NULL, 'Nascita in loco'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Gufo reale', 'GUF-02', '2021-06-20', NULL, 'Trasferimento da altro parco'),
 ('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Lupo appenninico', 'Remo', '2020-08-10', NULL, 'Nascita in loco'),
 ('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Lupo appenninico', 'Romolo', '2020-08-10', NULL, 'Nascita in loco'),
 ('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Orso bruno marsicano', 'Amarena', '2015-10-01', NULL, 'Nascita in loco'),
@@ -384,15 +384,18 @@ INSERT INTO `PERMANENZA` (`Nome_Parco`, `Nome_Specie_Fauna`, `Nome_Esemplare`, `
 ('Parco Nazionale d\'Aspromonte', 'Istrice', 'IST-02', '2021-08-25', NULL, 'Nascita in loco'),
 ('Parco Nazionale d\'Aspromonte', 'Salamandra pezzata', 'SAL-01', '2022-07-12', NULL, 'Nascita in loco'),
 ('Parco Nazionale dei Monti Sibillini', 'Aquila reale', 'AQU-03', '2019-10-10', NULL, 'Nascita in loco'),
+('Parco Nazionale dei Monti Sibillini', 'Camoscio d\'Abruzzo', 'CAM-01', '2021-06-10', '2021-07-19', 'Nascita in loco'),
 ('Parco Nazionale dei Monti Sibillini', 'Camoscio d\'Abruzzo', 'CAM-02', '2020-06-15', NULL, 'Reintroduzione'),
 ('Parco Nazionale dei Monti Sibillini', 'Camoscio d\'Abruzzo', 'CAM-04', '2022-06-01', NULL, 'Nascita in loco'),
 ('Parco Nazionale dei Monti Sibillini', 'Capriolo', 'CAP-02', '2022-08-10', NULL, 'Nascita in loco'),
+('Parco Nazionale dei Monti Sibillini', 'Cervo nobile', 'CER-03', '2019-08-25', '2020-01-14', 'Nascita in loco'),
 ('Parco Nazionale dei Monti Sibillini', 'Cervo nobile', 'CER-04', '2018-04-10', NULL, 'Sconfinamento spontaneo'),
 ('Parco Nazionale dei Monti Sibillini', 'Grifone', 'GRI-01', '2020-04-16', NULL, 'Trasferimento da altro parco'),
 ('Parco Nazionale dei Monti Sibillini', 'Lupo appenninico', 'Sicilia', '2019-05-20', NULL, 'Nascita in loco'),
 ('Parco Nazionale dei Monti Sibillini', 'Orso bruno marsicano', 'Yoga', '2018-05-11', '2021-04-10', 'Sconfinamento spontaneo'),
 ('Parco Nazionale dei Monti Sibillini', 'Tasso', 'TAS-01', '2018-03-22', NULL, 'Nascita in loco'),
 ('Parco Nazionale dei Monti Sibillini', 'Vipera comune', 'VIP-02', '2021-08-20', NULL, 'Nascita in loco'),
+('Parco Nazionale del Gargano', 'Capriolo', 'CAP-03', '2020-09-15', '2021-02-27', 'Nascita in loco'),
 ('Parco Nazionale del Gargano', 'Caretta caretta', 'CAR-04', '2019-01-12', NULL, 'Nascita in loco'),
 ('Parco Nazionale del Gargano', 'Cinghiale', 'CIN-02', '2022-05-15', NULL, 'Nascita in loco'),
 ('Parco Nazionale del Gargano', 'Falco pellegrino', 'FAL-02', '2019-11-22', NULL, 'Sconfinamento spontaneo'),
@@ -432,6 +435,7 @@ INSERT INTO `PERMANENZA` (`Nome_Parco`, `Nome_Specie_Fauna`, `Nome_Esemplare`, `
 ('Parco Nazionale delle Foreste Casentinesi', 'Cinghiale', 'CIN-03', '2021-11-20', NULL, 'Nascita in loco'),
 ('Parco Nazionale delle Foreste Casentinesi', 'Gatto selvatico', 'GAT-02', '2022-05-15', NULL, 'Nascita in loco'),
 ('Parco Nazionale delle Foreste Casentinesi', 'Gufo reale', 'GUF-01', '2018-02-15', NULL, 'Nascita in loco'),
+('Parco Nazionale delle Foreste Casentinesi', 'Gufo reale', 'GUF-02', '2021-02-15', '2021-06-19', 'Nascita in loco'),
 ('Parco Nazionale delle Foreste Casentinesi', 'Lupo appenninico', 'Navarro', '2018-06-15', NULL, 'Nascita in loco'),
 ('Parco Nazionale delle Foreste Casentinesi', 'Salamandra pezzata', 'SAL-02', '2022-02-25', NULL, 'Nascita in loco'),
 ('Parco Nazionale delle Foreste Casentinesi', 'Scoiattolo rosso', 'SCO-01', '2022-04-20', NULL, 'Nascita in loco'),
@@ -577,7 +581,7 @@ CREATE TABLE `VISITA_MEDICA` (
   `Matricola_Vet` varchar(20) NOT NULL,
   `Nome_Specie_Fauna` varchar(100) NOT NULL,
   `Nome_Esemplare` varchar(100) NOT NULL,
-  `DATA` date NOT NULL,
+  `Data` date NOT NULL,
   `Ora` time NOT NULL,
   `Esito` varchar(50) NOT NULL,
   `Terapia_Prescritta` varchar(255) DEFAULT NULL
@@ -587,9 +591,10 @@ CREATE TABLE `VISITA_MEDICA` (
 -- Dumping data for table `VISITA_MEDICA`
 --
 
-INSERT INTO `VISITA_MEDICA` (`Matricola_Vet`, `Nome_Specie_Fauna`, `Nome_Esemplare`, `DATA`, `Ora`, `Esito`, `Terapia_Prescritta`) VALUES
+INSERT INTO `VISITA_MEDICA` (`Matricola_Vet`, `Nome_Specie_Fauna`, `Nome_Esemplare`, `Data`, `Ora`, `Esito`, `Terapia_Prescritta`) VALUES
 ('VET001', 'Camoscio d\'Abruzzo', 'CAM-03', '2020-05-12', '13:00:00', 'Controllo biometrico neonatale', 'Nessuna'),
 ('VET001', 'Camoscio d\'Abruzzo', 'CAM-03', '2022-09-18', '08:45:00', 'Zoppia arto anteriore destro', 'Riposo in area recintata e antinfiammatorio'),
+('VET001', 'Capriolo', 'CAP-03', '2022-02-10', '13:15:00', 'Sotto osservazione - Ferita lacero-contusa', 'Disinfezione e sutura'),
 ('VET001', 'Cervo nobile', 'CER-04', '2018-11-15', '11:00:00', 'Sospetta parassitosi intestinale', 'Trattamento antielmintico'),
 ('VET001', 'Cervo nobile', 'CER-04', '2019-02-20', '09:30:00', 'Esito negativo feci - Guarito', 'Nessuna'),
 ('VET001', 'Cervo nobile', 'CER-04', '2021-01-10', '15:15:00', 'Critico - Denutrizione invernale', 'Foraggiamento supplementare mirato'),
@@ -602,10 +607,26 @@ INSERT INTO `VISITA_MEDICA` (`Matricola_Vet`, `Nome_Specie_Fauna`, `Nome_Esempla
 ('VET002', 'Orso bruno marsicano', 'Amarena', '2019-05-10', '09:30:00', 'Buono - Applicazione radiocollare', 'Nessuna'),
 ('VET002', 'Orso bruno marsicano', 'Amarena', '2021-04-15', '10:00:00', 'Ottimo - Cambio batterie collare', 'Nessuna'),
 ('VET002', 'Orso bruno marsicano', 'Amarena', '2023-05-20', '11:15:00', 'Ottimo - Prelievo ematico', 'Nessuna, somministrate vitamine'),
+('VET002', 'Orso bruno marsicano', 'Gemma', '2015-08-20', '09:00:00', 'Cattura per monitoraggio', 'Applicazione radiocollare'),
+('VET002', 'Orso bruno marsicano', 'Gemma', '2020-05-14', '11:30:00', 'Ottimo - Rimozione collare malfunzionante', 'Nessuna'),
+('VET002', 'Orso bruno marsicano', 'Juan Carrito', '2020-10-10', '09:15:00', 'Controllo cucciolo pre-letargo', 'Nessuna'),
+('VET002', 'Orso bruno marsicano', 'Juan Carrito', '2021-05-20', '11:00:00', 'Incursione centro abitato - Sedazione', 'Nessuna'),
+('VET002', 'Orso bruno marsicano', 'Juan Carrito', '2022-03-15', '14:30:00', 'Applicazione marca auricolare', 'Antibiotico locale'),
+('VET002', 'Orso bruno marsicano', 'Juan Carrito', '2023-01-24', '16:00:00', 'Incidente stradale lieve', 'Osservazione 48h e antidolorifico'),
+('VET002', 'Orso bruno marsicano', 'Juan Carrito', '2024-06-10', '10:45:00', 'Buono - Controllo generale', 'Nessuna'),
+('VET002', 'Orso bruno marsicano', 'Peppe', '2013-05-10', '09:00:00', 'Controllo accrescimento', 'Nessuna'),
+('VET002', 'Orso bruno marsicano', 'Peppe', '2015-04-12', '10:30:00', 'Applicazione radiocollare', 'Sedazione leggera'),
+('VET002', 'Orso bruno marsicano', 'Peppe', '2017-06-20', '11:15:00', 'Sostituzione batteria collare', 'Nessuna'),
+('VET002', 'Orso bruno marsicano', 'Peppe', '2019-09-05', '08:45:00', 'Sospetta dermatite', 'Trattamento antiparassitario locale'),
+('VET002', 'Orso bruno marsicano', 'Peppe', '2021-03-22', '14:00:00', 'Controllo post-letargo', 'Nessuna'),
+('VET002', 'Orso bruno marsicano', 'Peppe', '2022-11-10', '15:30:00', 'Zoppia lieve arto posteriore', 'Antinfiammatorio'),
+('VET002', 'Orso bruno marsicano', 'Peppe', '2024-05-18', '09:30:00', 'Sostituzione collare GPS', 'Nessuna'),
+('VET002', 'Orso bruno marsicano', 'Peppe', '2025-08-30', '10:00:00', 'Sotto osservazione - Calo ponderale', 'Integrazione alimentare'),
 ('VET002', 'Orso bruno marsicano', 'Sandrino', '2020-05-10', '14:00:00', 'Critico - Investimento stradale', 'Chirurgia ortopedica e antibiotici'),
 ('VET002', 'Orso bruno marsicano', 'Sandrino', '2020-06-15', '09:00:00', 'Miglioramento - Controllo post-operatorio', 'Antidolorifici'),
 ('VET002', 'Orso bruno marsicano', 'Sandrino', '2020-10-20', '10:30:00', 'In convalescenza - Riabilitazione', 'Integrazione alimentare'),
 ('VET002', 'Orso bruno marsicano', 'Sandrino', '2021-04-05', '11:00:00', 'Stabile - Rimozione ferri', 'Nessuna'),
+('VET002', 'Orso bruno marsicano', 'Yoga', '2020-10-15', '10:30:00', 'Buono - Controllo di routine pre-letargo', 'Nessuna'),
 ('VET003', 'Aquila reale', 'AQU-02', '2018-05-20', '14:00:00', 'Trauma da impatto con cavo elettrico', 'Immobilizzazione ala sinistra'),
 ('VET003', 'Aquila reale', 'AQU-02', '2018-07-15', '10:30:00', 'Rimozione bendaggio - Inizio riabilitazione volo', 'Nessuna'),
 ('VET003', 'Aquila reale', 'AQU-02', '2018-09-10', '11:00:00', 'Volo incerto - Prolungamento voliera tunnel', 'Integrazione calcio'),
@@ -701,7 +722,7 @@ ALTER TABLE `VETERINARIO`
 -- Indexes for table `VISITA_MEDICA`
 --
 ALTER TABLE `VISITA_MEDICA`
-  ADD PRIMARY KEY (`Matricola_Vet`,`Nome_Specie_Fauna`,`Nome_Esemplare`,`DATA`,`Ora`),
+  ADD PRIMARY KEY (`Matricola_Vet`,`Nome_Specie_Fauna`,`Nome_Esemplare`,`Data`,`Ora`),
   ADD KEY `Nome_Specie_Fauna` (`Nome_Specie_Fauna`,`Nome_Esemplare`);
 
 --
