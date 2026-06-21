@@ -12,6 +12,7 @@ $matricola = $_SESSION['matricola'];
 ?>
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -117,20 +118,21 @@ $matricola = $_SESSION['matricola'];
         }
     </style>
 </head>
+
 <body>
 
     <div class="header-panel">
         <div>
-            Utente: <strong><?php echo htmlspecialchars($username); ?></strong> 
+            Utente: <strong><?php echo htmlspecialchars($username); ?></strong>
             (Ruolo: <strong><?php echo htmlspecialchars($ruolo); ?></strong>)
         </div>
         <h3>Sistema Gestionale Rete Parchi Naturali</h3>
-        <a href="logout.php" class="logout-btn">Disconnetti</a>
+        <a href="index.htm" class="logout-btn">Disconnetti</a>
     </div>
 
     <div class="container">
         <h2>Pannello Operativo Personale</h2>
-        
+
         <div class="grid-container">
 
             <?php if ($ruolo === 'guardiaparco' || $ruolo === 'admin'): ?>
@@ -166,4 +168,5 @@ $matricola = $_SESSION['matricola'];
     </div>
 
 </body>
+
 </html>
