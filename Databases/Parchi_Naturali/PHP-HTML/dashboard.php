@@ -26,6 +26,7 @@ $matricola = $_SESSION['matricola'];
         }
 
         body {
+            zoom: 1.15;
             background-color: #032217;
             color: #ffffff;
             text-align: center;

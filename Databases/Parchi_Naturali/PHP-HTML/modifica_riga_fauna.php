@@ -101,6 +101,7 @@ try {
         }
 
         body {
+            zoom: 1.15;
             background-color: #032217;
             color: white;
             font-family: 'font', Arial, sans-serif;
@@ -135,7 +136,6 @@ try {
             display: block;
             margin-top: 15px;
             color: #FFB100;
-            font-weight: bold;
             font-size: 14px;
         }
 
@@ -192,7 +192,6 @@ try {
             padding: 12px;
             width: 100%;
             margin-top: 25px;
-            font-weight: bold;
             cursor: pointer;
             border-radius: 4px;
             font-size: 16px;
@@ -209,7 +208,6 @@ try {
             border-radius: 4px;
             text-align: center;
             margin-bottom: 15px;
-            font-weight: bold;
         }
     </style>
 </head>

@@ -44,6 +44,7 @@ if ($ruolo === 'guardiaparco') {
         }
 
         body {
+            zoom: 1.15;
             background-color: #032217;
             color: #ffffff;
             text-align: center;
@@ -159,7 +160,7 @@ if ($ruolo === 'guardiaparco') {
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
-                    echo "<td style='font-weight: bold;'>" . htmlspecialchars($row['Nome_Specie_Flora']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['Nome_Specie_Flora']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['Tipo']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['Stagione_Fioritura']) . "</td>";
 

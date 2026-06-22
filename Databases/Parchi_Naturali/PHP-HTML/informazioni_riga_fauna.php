@@ -41,6 +41,7 @@ if (!$esemplare) {
         }
 
         body {
+            zoom: 1.15;
             background-color: #032217;
             color: white;
             font-family: 'font', Arial, sans-serif;
@@ -97,7 +98,6 @@ if (!$esemplare) {
 
         .info-label {
             color: #FFB100;
-            font-weight: bold;
         }
     </style>
 </head>
@@ -135,7 +135,7 @@ if (!$esemplare) {
                 $q_perm = "SELECT * FROM PERMANENZA WHERE Nome_Specie_Fauna = '$specie' AND Nome_Esemplare = '$nome' ORDER BY Data_Inizio DESC";
                 $r_perm = mysqli_query($conn, $q_perm);
                 while ($p = mysqli_fetch_assoc($r_perm)) {
-                    $fine = $p['Data_Fine'] ? $p['Data_Fine'] : "<b>In corso (Attuale)</b>";
+                    $fine = $p['Data_Fine'] ? $p['Data_Fine'] : "In corso (Attuale)";
                     echo "<tr><td>{$p['Nome_Parco']}</td><td>{$p['Data_Inizio']}</td><td>{$fine}</td><td>{$p['Modalita_Ingresso']}</td></tr>";
                 }
                 ?>

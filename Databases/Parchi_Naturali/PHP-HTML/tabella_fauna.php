@@ -45,6 +45,7 @@ if ($ruolo === 'guardiaparco') {
         }
 
         body {
+            zoom: 1.15;
             background-color: #032217;
             color: #ffffff;
             text-align: center;
@@ -111,7 +112,6 @@ if ($ruolo === 'guardiaparco') {
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-weight: bold;
         }
 
         .btn-update {

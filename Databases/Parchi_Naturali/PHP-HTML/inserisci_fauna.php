@@ -94,6 +94,7 @@ $res_parchi = mysqli_query($conn, "SELECT Nome_Parco FROM PARCO ORDER BY Nome_Pa
         }
 
         body {
+            zoom: 1.15;
             background-color: #032217;
             color: white;
             font-family: 'font', Arial, sans-serif;
@@ -128,7 +129,6 @@ $res_parchi = mysqli_query($conn, "SELECT Nome_Parco FROM PARCO ORDER BY Nome_Pa
             display: block;
             margin-top: 15px;
             color: #FFB100;
-            font-weight: bold;
             font-size: 14px;
         }
 
@@ -151,7 +151,6 @@ $res_parchi = mysqli_query($conn, "SELECT Nome_Parco FROM PARCO ORDER BY Nome_Pa
             padding: 12px;
             width: 100%;
             margin-top: 30px;
-            font-weight: bold;
             cursor: pointer;
             border-radius: 4px;
             font-size: 16px;
