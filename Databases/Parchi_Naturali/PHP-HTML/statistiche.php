@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Sicurezza estrema: Solo l'Admin globale può accedere alle statistiche di sistema
 if (!isset($_SESSION['username']) || $_SESSION['ruolo'] !== 'admin') {
     header("Location: index.htm");
     exit();
@@ -17,10 +16,9 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 try {
     $conn = mysqli_connect($servername, $username_db, $password_db, $dbname);
 
-    // Fetch per i menu a tendina delle query dinamiche (OP5 e OP9)
     $res_parchi = mysqli_query($conn, "SELECT Nome_Parco FROM PARCO ORDER BY Nome_Parco ASC");
     $parchi_op5 = mysqli_fetch_all($res_parchi, MYSQLI_ASSOC);
-    $parchi_op9 = $parchi_op5; // Ricicliamo l'array
+    $parchi_op9 = $parchi_op5;
 
     $res_stagioni = mysqli_query($conn, "SELECT DISTINCT Stagione_Fioritura FROM SPECIE_FLORA ORDER BY Stagione_Fioritura ASC");
 
