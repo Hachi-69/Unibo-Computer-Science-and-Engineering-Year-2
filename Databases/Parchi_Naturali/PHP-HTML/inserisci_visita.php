@@ -58,6 +58,7 @@ try {
         mysqli_begin_transaction($conn);
 
         try {
+            // OP 1 Inserimento di una nuova visita medica per un esemplare \\
             $query_insert = "INSERT INTO VISITA_MEDICA (Matricola_Vet, Nome_Specie_Fauna, Nome_Esemplare, Data, Ora, Esito, Terapia_Prescritta)
                              VALUES ('$matricola_vet', '$specie', '$nome', '$data', '$ora', '$esito', '$terapia')";
             mysqli_query($conn, $query_insert);
@@ -69,6 +70,7 @@ try {
             mysqli_query($conn, $query_update);
 
             mysqli_commit($conn);
+            // OP 1 Inserimento di una nuova visita medica per un esemplare \\
 
             header("Location: registro_visite.php");
             exit();
