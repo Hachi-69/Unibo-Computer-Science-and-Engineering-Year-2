@@ -20,7 +20,7 @@ $specie_get = mysqli_real_escape_string($conn, $_GET['specie']);
 $nome_get = mysqli_real_escape_string($conn, $_GET['nome']);
 
 $oggi = date('Y-m-d');
-$max_data_trasferimento = date('Y-m-d', strtotime('+7 days'));
+$max_data_evento = date('Y-m-d', strtotime('+7 days'));
 
 try {
     $query_select = "SELECT * FROM ESEMPLARE WHERE Nome_Specie_Fauna = '$specie_get' AND Nome_Esemplare = '$nome_get'";
@@ -36,16 +36,14 @@ try {
         $query_update = "UPDATE ESEMPLARE 
                         SET Sesso = '$sesso_post', Stato_Salute = '$salute_post' 
                         WHERE Nome_Specie_Fauna = '$specie_get' AND Nome_Esemplare = '$nome_get'";
-
         mysqli_query($conn, $query_update);
 
-        if (!empty($_POST['nuovo_parco']) && !empty($_POST['data_trasferimento'])) {
-            $nuovo_parco = mysqli_real_escape_string($conn, $_POST['nuovo_parco']);
-            $data_trasf = mysqli_real_escape_string($conn, $_POST['data_trasferimento']);
-            $modalita = mysqli_real_escape_string($conn, $_POST['modalita_ingresso']);
+        if (!empty($_POST['azione_uscita']) && !empty($_POST['data_evento'])) {
+            $azione_uscita = mysqli_real_escape_string($conn, $_POST['azione_uscita']);
+            $data_evento = mysqli_real_escape_string($conn, $_POST['data_evento']);
 
-            if ($data_trasf > $max_data_trasferimento) {
-                throw new Exception("Non puoi registrare un trasferimento oltre 7 giorni nel futuro.");
+            if ($data_evento > $max_data_evento) {
+                throw new Exception("Non puoi registrare un evento oltre 7 giorni nel futuro.");
             }
 
             $q_check = "SELECT Data_Inizio, Nome_Parco FROM PERMANENZA 
@@ -54,22 +52,36 @@ try {
             $curr_perm = mysqli_fetch_assoc($res_check);
 
             if ($curr_perm) {
-                if ($curr_perm['Nome_Parco'] === $nuovo_parco) {
-                    throw new Exception("L'animale si trova già nel $nuovo_parco! Seleziona una destinazione diversa.");
+                if ($data_evento < $curr_perm['Data_Inizio']) {
+                    throw new Exception("Errore: La data dell'evento ($data_evento) non può essere precedente alla data in cui è arrivato qui (" . $curr_perm['Data_Inizio'] . ").");
                 }
-                if ($data_trasf < $curr_perm['Data_Inizio']) {
-                    throw new Exception("Errore: La data di trasferimento ($data_trasf) non può essere precedente alla data in cui è arrivato qui (" . $curr_perm['Data_Inizio'] . ").");
+
+                $query_close = "UPDATE PERMANENZA 
+                                SET Data_Fine = '$data_evento' 
+                                WHERE Nome_Specie_Fauna = '$specie_get' AND Nome_Esemplare = '$nome_get' AND Data_Fine IS NULL";
+                mysqli_query($conn, $query_close);
+
+                if ($azione_uscita === 'Trasferimento') {
+                    $nuovo_parco = mysqli_real_escape_string($conn, $_POST['nuovo_parco']);
+                    $modalita = mysqli_real_escape_string($conn, $_POST['modalita_ingresso']);
+
+                    if ($curr_perm['Nome_Parco'] === $nuovo_parco) {
+                        throw new Exception("L'animale si trova già nel $nuovo_parco! Seleziona una destinazione diversa.");
+                    }
+
+                    $query_insert = "INSERT INTO PERMANENZA (Nome_Parco, Nome_Specie_Fauna, Nome_Esemplare, Data_Inizio, Data_Fine, Modalita_Ingresso) 
+                                    VALUES ('$nuovo_parco', '$specie_get', '$nome_get', '$data_evento', NULL, '$modalita')";
+                    mysqli_query($conn, $query_insert);
+
+                } elseif ($azione_uscita === 'Decesso') {
+                    $query_decesso = "UPDATE ESEMPLARE 
+                                      SET Stato_Salute = 'Deceduto' 
+                                      WHERE Nome_Specie_Fauna = '$specie_get' AND Nome_Esemplare = '$nome_get'";
+                    mysqli_query($conn, $query_decesso);
                 }
+            } else {
+                throw new Exception("L'animale non risulta avere una permanenza attiva in alcun parco da poter chiudere.");
             }
-
-            $query_close = "UPDATE PERMANENZA 
-                            SET Data_Fine = '$data_trasf' 
-                            WHERE Nome_Specie_Fauna = '$specie_get' AND Nome_Esemplare = '$nome_get' AND Data_Fine IS NULL";
-            mysqli_query($conn, $query_close);
-
-            $query_insert = "INSERT INTO PERMANENZA (Nome_Parco, Nome_Specie_Fauna, Nome_Esemplare, Data_Inizio, Data_Fine, Modalita_Ingresso) 
-                            VALUES ('$nuovo_parco', '$specie_get', '$nome_get', '$data_trasf', NULL, '$modalita')";
-            mysqli_query($conn, $query_insert);
         }
 
         header("Location: tabella_fauna.php");
@@ -209,6 +221,11 @@ try {
             text-align: center;
             margin-bottom: 15px;
         }
+
+        /* Classe per nascondere i campi non necessari */
+        .hidden-fields {
+            display: none;
+        }
     </style>
 </head>
 
@@ -256,68 +273,100 @@ try {
                 <option value="Critico" <?php if ($esemplare['Stato_Salute'] == 'Critico')
                     echo 'selected'; ?>>Critico
                 </option>
+                <?php if ($esemplare['Stato_Salute'] == 'Deceduto'): ?>
+                    <option value="Deceduto" selected>Deceduto</option>
+                <?php endif; ?>
             </select>
 
             <hr>
 
             <div class="transfer-section">
 
-                <h3>Trasferimento (Opzionale)</h3>
-                <div class="help-text">Compila questa sezione solo se l'animale sta cambiando parco. La sua permanenza
-                    attuale verrà chiusa.</div>
+                <h3>Fine Permanenza / Uscita (Opzionale)</h3>
+                <div class="help-text">Compila questa sezione solo se l'animale sta lasciando il parco attuale, viene
+                    liberato o è deceduto.</div>
 
-                <label>Nuovo Parco di Destinazione</label>
-                <select name="nuovo_parco" id="nuovo_parco">
-                    <option value="">-- Nessun trasferimento --</option>
-                    <?php
-                    if (isset($res_parchi) && $res_parchi) {
-                        while ($p = mysqli_fetch_assoc($res_parchi)) {
-                            echo "<option value=\"" . htmlspecialchars($p['Nome_Parco']) . "\">" . htmlspecialchars($p['Nome_Parco']) . "</option>";
+                <label>Motivo di Uscita dal Parco</label>
+                <select name="azione_uscita" id="azione_uscita" onchange="gestisciCampiUscita()">
+                    <option value="">-- Nessuna Uscita (L'animale rimane qui) --</option>
+                    <option value="Trasferimento">Trasferimento in altro parco</option>
+                    <option value="Rilascio">Rilascio definitivo in natura</option>
+                    <option value="Decesso">Decesso dell'animale</option>
+                </select>
+
+                <div id="campi_data" class="hidden-fields">
+                    <label>Data dell'Evento (Trasferimento/Rilascio/Decesso)</label>
+                    <input type="date" name="data_evento" id="data_evento" max="<?php echo $max_data_evento; ?>"
+                        min="<?php echo $data_nascita; ?>" />
+                </div>
+
+                <div id="campi_trasferimento" class="hidden-fields">
+                    <label>Nuovo Parco di Destinazione</label>
+                    <select name="nuovo_parco" id="nuovo_parco">
+                        <option value="">-- Seleziona parco --</option>
+                        <?php
+                        if (isset($res_parchi) && $res_parchi) {
+                            while ($p = mysqli_fetch_assoc($res_parchi)) {
+                                echo "<option value=\"" . htmlspecialchars($p['Nome_Parco']) . "\">" . htmlspecialchars($p['Nome_Parco']) . "</option>";
+                            }
                         }
-                    }
-                    ?>
-                </select>
+                        ?>
+                    </select>
 
-                <label>Data del Trasferimento</label>
-                <input type="date" name="data_trasferimento" id="data_trasferimento"
-                    max="<?php echo $max_data_trasferimento; ?>" min="<?php echo $data_nascita; ?>" />
-
-                <label>Modalità di Ingresso nel nuovo parco</label>
-                <select name="modalita_ingresso" id="modalita_ingresso">
-                    <option value="">-- Seleziona una modalità --</option>
-                    <option value="Trasferimento da altro parco">Trasferimento da altro parco</option>
-                    <option value="Cattura e ricollocamento">Cattura e ricollocamento</option>
-                    <option value="Sconfinamento spontaneo">Sconfinamento spontaneo</option>
-                    <option value="Scambio genetico inter-parco">Scambio genetico inter-parco</option>
-                </select>
+                    <label>Modalità di Ingresso nel nuovo parco</label>
+                    <select name="modalita_ingresso" id="modalita_ingresso">
+                        <option value="">-- Seleziona una modalità --</option>
+                        <option value="Trasferimento da altro parco">Trasferimento da altro parco</option>
+                        <option value="Scambio genetico inter-parco">Scambio genetico inter-parco</option>
+                    </select>
+                </div>
             </div>
 
             <button type="submit" class="btn-submit">Salva Modifiche</button>
         </form>
 
         <script>
+            function gestisciCampiUscita() {
+                const azione = document.getElementById('azione_uscita').value;
+                const divData = document.getElementById('campi_data');
+                const divTrasf = document.getElementById('campi_trasferimento');
+
+                if (azione === '') {
+                    divData.style.display = 'none';
+                    divTrasf.style.display = 'none';
+                } else if (azione === 'Rilascio' || azione === 'Decesso') {
+                    divData.style.display = 'block';
+                    divTrasf.style.display = 'none';
+                } else if (azione === 'Trasferimento') {
+                    divData.style.display = 'block';
+                    divTrasf.style.display = 'block';
+                }
+            }
+
             document.querySelector('form').addEventListener('submit', function (e) {
-                const nuovoParco = document.getElementById('nuovo_parco').value.trim();
-                const dataTrasferimento = document.getElementById('data_trasferimento').value.trim();
-                const modalitaIngresso = document.getElementById('modalita_ingresso').value.trim();
+                const azioneUscita = document.getElementById('azione_uscita').value;
 
-                const isAnyFieldFilled = nuovoParco || dataTrasferimento || modalitaIngresso;
-
-                if (isAnyFieldFilled) {
-                    if (!nuovoParco) {
-                        alert('Il campo "Nuovo Parco di Destinazione" è obbligatorio se compili il trasferimento');
+                if (azioneUscita !== '') {
+                    const dataEvento = document.getElementById('data_evento').value.trim();
+                    if (!dataEvento) {
+                        alert('La "Data dell\'Evento" è obbligatoria per registrare un\'uscita.');
                         e.preventDefault();
                         return;
                     }
-                    if (!dataTrasferimento) {
-                        alert('Il campo "Data del Trasferimento" è obbligatorio se compili il trasferimento');
-                        e.preventDefault();
-                        return;
-                    }
-                    if (!modalitaIngresso) {
-                        alert('Il campo "Modalità di Ingresso nel nuovo parco" è obbligatorio se compili il trasferimento');
-                        e.preventDefault();
-                        return;
+
+                    if (azioneUscita === 'Trasferimento') {
+                        const nuovoParco = document.getElementById('nuovo_parco').value.trim();
+                        const modalitaIngresso = document.getElementById('modalita_ingresso').value.trim();
+                        if (!nuovoParco) {
+                            alert('Il campo "Nuovo Parco di Destinazione" è obbligatorio per un trasferimento.');
+                            e.preventDefault();
+                            return;
+                        }
+                        if (!modalitaIngresso) {
+                            alert('Il campo "Modalità di Ingresso" è obbligatorio per un trasferimento.');
+                            e.preventDefault();
+                            return;
+                        }
                     }
                 }
             });
