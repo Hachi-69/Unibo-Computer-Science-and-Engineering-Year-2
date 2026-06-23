@@ -56,7 +56,7 @@ try {
                     throw new Exception("Errore: La data dell'evento ($data_evento) non può essere precedente alla data in cui è arrivato qui (" . $curr_perm['Data_Inizio'] . ").");
                 }
 
-                $query_close = "UPDATE PERMANENZA 
+                $query_close = "UPDATE PERMANENZA
                                 SET Data_Fine = '$data_evento' 
                                 WHERE Nome_Specie_Fauna = '$specie_get' AND Nome_Esemplare = '$nome_get' AND Data_Fine IS NULL";
                 mysqli_query($conn, $query_close);
