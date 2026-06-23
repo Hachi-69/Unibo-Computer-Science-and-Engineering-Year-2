@@ -16,17 +16,63 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 try {
     $conn = mysqli_connect($servername, $username_db, $password_db, $dbname);
 
+    if (isset($_GET['ajax_op5'])) {
+        $p5 = mysqli_real_escape_string($conn, $_GET['op5_parco']);
+        $s5 = mysqli_real_escape_string($conn, $_GET['op5_stagione']);
+
+        // OP 5
+        $q5 = "SELECT SF.Nome_Specie_Flora, SF.Tipo 
+               FROM SPECIE_FLORA SF 
+               JOIN Cresce C ON SF.Nome_Specie_Flora = C.Nome_Specie_Flora 
+               WHERE C.Nome_Parco = '$p5' AND SF.Stagione_Fioritura = '$s5'";
+        $r5 = mysqli_query($conn, $q5);
+
+        echo "<table><tr><th>Specie Botanica</th><th>Tipologia</th></tr>";
+        if (mysqli_num_rows($r5) > 0) {
+            while ($row = mysqli_fetch_assoc($r5)) {
+                echo "<tr><td>" . htmlspecialchars($row['Nome_Specie_Flora']) . "</td><td>" . htmlspecialchars($row['Tipo']) . "</td></tr>";
+            }
+        } else {
+            echo "<tr><td colspan='2'>Nessuna corrispondenza trovata.</td></tr>";
+        }
+        echo "</table>";
+
+        mysqli_close($conn);
+        exit();
+    }
+
+    if (isset($_GET['ajax_op9'])) {
+        $p9 = mysqli_real_escape_string($conn, $_GET['op9_parco']);
+
+        // OP 9
+        $q9 = "SELECT DISTINCT A.Nome_Alimento, A.Categoria 
+               FROM PERMANENZA P 
+               JOIN Dieta D ON P.Nome_Specie_Fauna = D.Nome_Specie_Fauna 
+               JOIN ALIMENTO A ON D.Nome_Alimento = A.Nome_Alimento 
+               WHERE P.Nome_Parco = '$p9' AND P.Data_Fine IS NULL";
+        $r9 = mysqli_query($conn, $q9);
+
+        echo "<table><tr><th>Risorsa Alimentare Necessaria</th><th>Categoria</th></tr>";
+        if (mysqli_num_rows($r9) > 0) {
+            while ($row = mysqli_fetch_assoc($r9)) {
+                echo "<tr><td style='font-weight:bold;'>" . htmlspecialchars($row['Nome_Alimento']) . "</td><td>" . htmlspecialchars($row['Categoria']) . "</td></tr>";
+            }
+        } else {
+            echo "<tr><td colspan='2'>Nessun fabbisogno registrato (Il parco è vuoto o mancano le diete).</td></tr>";
+        }
+        echo "</table>";
+
+        mysqli_close($conn);
+        exit();
+    }
+
     $res_parchi = mysqli_query($conn, "SELECT Nome_Parco FROM PARCO ORDER BY Nome_Parco ASC");
     $parchi_op5 = mysqli_fetch_all($res_parchi, MYSQLI_ASSOC);
     $parchi_op9 = $parchi_op5;
 
     $res_stagioni = mysqli_query($conn, "SELECT DISTINCT Stagione_Fioritura FROM SPECIE_FLORA ORDER BY Stagione_Fioritura ASC");
 
-    // ==============================================================================
-    // ESECUZIONE QUERY STATICHE E DINAMICHE
-    // ==============================================================================
-
-    // OP 6 - Top 3 Biodiversità
+    // OP 6
     $q6 = "SELECT Nome_Parco, COUNT(DISTINCT Nome_Specie_Fauna) AS NumSpecie 
            FROM PERMANENZA 
            WHERE Data_Fine IS NULL 
@@ -34,16 +80,16 @@ try {
            ORDER BY NumSpecie DESC LIMIT 3";
     $res_op6 = mysqli_query($conn, $q6);
 
-    // OP 7 - Specie a maggior rischio
+    // OP 7
     $q7 = "SELECT Totali.Nome_Specie_Fauna, (IFNULL(Critiche.Num_Critiche, 0) * 100.0) / Totali.Num_Totale AS Percentuale_Critica
            FROM (SELECT Nome_Specie_Fauna, COUNT(*) AS Num_Totale FROM VISITA_MEDICA GROUP BY Nome_Specie_Fauna) AS Totali
-           JOIN (SELECT Nome_Specie_Fauna, COUNT(*) AS Num_Critiche FROM VISITA_MEDICA WHERE Esito = 'Critico' GROUP BY Nome_Specie_Fauna) AS Critiche
+           JOIN (SELECT Nome_Specie_Fauna, COUNT(*) AS Num_Critiche FROM VISITA_MEDICA WHERE Esito LIKE '%Critico%' GROUP BY Nome_Specie_Fauna) AS Critiche
            ON Totali.Nome_Specie_Fauna = Critiche.Nome_Specie_Fauna
            ORDER BY Percentuale_Critica DESC LIMIT 1";
     $res_op7 = mysqli_query($conn, $q7);
 
-    // OP 8 - Parchi sotto-sorvegliati (Aggiunto NULLIF per evitare crash su divisione per zero)
-    $q8 = "SELECT P.Nome_Parco, P.Superficie, COUNT(G.Matricola) AS Num_Guardiaparco, 
+    // OP 8
+    $q8 = "SELECT P.Nome_Parco, P.Superficie, COUNT(G.Matricola) AS Num_Guardiaparco,
            (P.Superficie / NULLIF(COUNT(G.Matricola), 0)) AS Ettari_Per_Guardia
            FROM PARCO P
            LEFT JOIN GUARDIAPARCO G ON P.Nome_Parco = G.Parco_Assegnato
@@ -51,13 +97,13 @@ try {
            HAVING Ettari_Per_Guardia > 500 OR Num_Guardiaparco = 0";
     $res_op8 = mysqli_query($conn, $q8);
 
-    // OP 10 - Veterinari molto attivi (>50 visite)
+    // OP 10
     $q10 = "SELECT V.Matricola, V.Nome, V.Cognome, V.Specializzazione, COUNT(VM.Data) AS Totale_Visite 
-            FROM VETERINARIO V 
+            FROM VETERINARIO V
             JOIN VISITA_MEDICA VM ON V.Matricola = VM.Matricola_Vet
             WHERE VM.Data >= DATE_SUB(CURRENT_DATE, INTERVAL 1 YEAR) 
-            GROUP BY V.Matricola, V.Nome, V.Cognome, V.Specializzazione 
-            HAVING Totale_Visite > 50 
+            GROUP BY V.Matricola, V.Nome, V.Cognome, V.Specializzazione
+            HAVING Totale_Visite > 5
             ORDER BY Totale_Visite DESC";
     $res_op10 = mysqli_query($conn, $q10);
 
@@ -225,7 +271,7 @@ try {
     <a href="dashboard.php" class="back-link">&larr; Torna alla Dashboard Centrale</a>
 
     <h2>Centro Analisi e Statistiche Regionali</h2>
-    <div class="subtitle">Esecuzione interrogazioni di Business Intelligence (OP5 - OP10)</div>
+    <div class="subtitle">Esecuzione interrogazioni (OP5 - OP10)</div>
 
     <?php if (isset($errore_msg))
         echo "<div class='no-data'>$errore_msg</div>"; ?>
@@ -264,8 +310,8 @@ try {
 
         <div class="stat-card">
             <h3><span class="op-badge">OP 8</span> Allerta: Parchi Sotto-Sorvegliati</h3>
-            <p style="font-size: 12px; color: #ccc;">Soglia di allarme: > 500 ettari/guardia oppure 0 guardie assegnate.
-            </p>
+            <p style="font-size: 12px; color: #ccc;">Soglia di allarme: > 500 ettari/guardia oppure nessuna guardia
+                assegnata.</p>
             <table>
                 <tr>
                     <th>Parco</th>
@@ -290,7 +336,7 @@ try {
         </div>
 
         <div class="stat-card">
-            <h3><span class="op-badge">OP 10</span> Veterinari Top Performer (> 50 visite/anno)</h3>
+            <h3><span class="op-badge">OP 10</span> Veterinari con più di 5 visite/anno</h3>
             <table>
                 <tr>
                     <th>Medico</th>
@@ -305,8 +351,7 @@ try {
                         echo "<td style='color:#28a745; font-weight:bold;'>" . htmlspecialchars($row['Totale_Visite']) . "</td></tr>";
                     }
                 } else {
-                    // Dato che il DB è nuovo e potresti non avere ancora medici con 50 visite, mostriamo un avviso elegante
-                    echo "<tr><td colspan='3'>Nessun medico ha superato la soglia delle 50 visite cliniche nell'ultimo anno.</td></tr>";
+                    echo "<tr><td colspan='3'>Nessun medico ha superato la soglia delle 5 visite cliniche nell'ultimo anno.</td></tr>";
                 }
                 ?>
             </table>
@@ -315,87 +360,75 @@ try {
         <div class="stat-card">
             <h3><span class="op-badge">OP 5</span> Filtro Flora per Parco e Stagione</h3>
             <div class="form-inline">
-                <form method="GET">
-                    <select name="op5_parco" required>
+                <form id="form-op5">
+                    <select name="op5_parco" id="op5_parco" required>
                         <option value="">-- Seleziona Parco --</option>
                         <?php foreach ($parchi_op5 as $p) {
-                            $sel = (isset($_GET['op5_parco']) && $_GET['op5_parco'] == $p['Nome_Parco']) ? 'selected' : '';
-                            echo "<option value='" . htmlspecialchars($p['Nome_Parco']) . "' $sel>" . htmlspecialchars($p['Nome_Parco']) . "</option>";
+                            echo "<option value='" . htmlspecialchars($p['Nome_Parco']) . "'>" . htmlspecialchars($p['Nome_Parco']) . "</option>";
                         } ?>
                     </select>
-                    <select name="op5_stagione" required>
+                    <select name="op5_stagione" id="op5_stagione" required>
                         <option value="">-- Seleziona Stagione Fioritura --</option>
                         <?php while ($s = mysqli_fetch_assoc($res_stagioni)) {
-                            $sel = (isset($_GET['op5_stagione']) && $_GET['op5_stagione'] == $s['Stagione_Fioritura']) ? 'selected' : '';
-                            echo "<option value='" . htmlspecialchars($s['Stagione_Fioritura']) . "' $sel>" . htmlspecialchars($s['Stagione_Fioritura']) . "</option>";
+                            echo "<option value='" . htmlspecialchars($s['Stagione_Fioritura']) . "'>" . htmlspecialchars($s['Stagione_Fioritura']) . "</option>";
                         } ?>
                     </select>
                     <button type="submit">Genera Report OP 5</button>
                 </form>
             </div>
-
-            <?php
-            if (isset($_GET['op5_parco']) && isset($_GET['op5_stagione'])) {
-                $p5 = mysqli_real_escape_string($conn, $_GET['op5_parco']);
-                $s5 = mysqli_real_escape_string($conn, $_GET['op5_stagione']);
-
-                $q5 = "SELECT SF.Nome_Specie_Flora, SF.Tipo FROM SPECIE_FLORA SF JOIN Cresce C ON SF.Nome_Specie_Flora = C.Nome_Specie_Flora WHERE C.Nome_Parco = '$p5' AND SF.Stagione_Fioritura = '$s5'";
-                $r5 = mysqli_query($conn, $q5);
-
-                echo "<table><tr><th>Specie Botanica</th><th>Tipologia</th></tr>";
-                if (mysqli_num_rows($r5) > 0) {
-                    while ($row = mysqli_fetch_assoc($r5)) {
-                        echo "<tr><td>" . htmlspecialchars($row['Nome_Specie_Flora']) . "</td><td>" . htmlspecialchars($row['Tipo']) . "</td></tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='2'>Nessuna corrispondenza trovata.</td></tr>";
-                }
-                echo "</table>";
-            }
-            ?>
+            <div id="risultato-op5"></div>
         </div>
 
         <div class="stat-card">
             <h3><span class="op-badge">OP 9</span> Fabbisogno Alimentare del Parco</h3>
             <div class="form-inline">
-                <form method="GET">
-                    <select name="op9_parco" required>
+                <form id="form-op9">
+                    <select name="op9_parco" id="op9_parco" required>
                         <option value="">-- Seleziona Parco per calcolo logistico --</option>
                         <?php foreach ($parchi_op9 as $p) {
-                            $sel = (isset($_GET['op9_parco']) && $_GET['op9_parco'] == $p['Nome_Parco']) ? 'selected' : '';
-                            echo "<option value='" . htmlspecialchars($p['Nome_Parco']) . "' $sel>" . htmlspecialchars($p['Nome_Parco']) . "</option>";
+                            echo "<option value='" . htmlspecialchars($p['Nome_Parco']) . "'>" . htmlspecialchars($p['Nome_Parco']) . "</option>";
                         } ?>
                     </select>
                     <button type="submit">Genera Report Logistico OP 9</button>
                 </form>
             </div>
-
-            <?php
-            if (isset($_GET['op9_parco'])) {
-                $p9 = mysqli_real_escape_string($conn, $_GET['op9_parco']);
-
-                $q9 = "SELECT DISTINCT A.Nome_Alimento, A.Categoria 
-                       FROM PERMANENZA P 
-                       JOIN Dieta D ON P.Nome_Specie_Fauna = D.Nome_Specie_Fauna 
-                       JOIN ALIMENTO A ON D.Nome_Alimento = A.Nome_Alimento 
-                       WHERE P.Nome_Parco = '$p9' AND P.Data_Fine IS NULL";
-                $r9 = mysqli_query($conn, $q9);
-
-                echo "<table><tr><th>Risorsa Alimentare Necessaria</th><th>Categoria</th></tr>";
-                if (mysqli_num_rows($r9) > 0) {
-                    while ($row = mysqli_fetch_assoc($r9)) {
-                        echo "<tr><td style='font-weight:bold;'>" . htmlspecialchars($row['Nome_Alimento']) . "</td><td>" . htmlspecialchars($row['Categoria']) . "</td></tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='2'>Nessun fabbisogno registrato (Il parco è vuoto o mancano le diete).</td></tr>";
-                }
-                echo "</table>";
-            }
-            ?>
+            <div id="risultato-op9"></div>
         </div>
 
     </div>
 
+    <script>
+        document.getElementById('form-op5').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const parco = document.getElementById('op5_parco').value;
+            const stagione = document.getElementById('op5_stagione').value;
+
+            const url = `statistiche.php?ajax_op5=1&op5_parco=${encodeURIComponent(parco)}&op5_stagione=${encodeURIComponent(stagione)}`;
+
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('risultato-op5').innerHTML = html;
+                })
+                .catch(error => console.error('Errore durante la chiamata AJAX OP5:', error));
+        });
+
+        document.getElementById('form-op9').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const parco = document.getElementById('op9_parco').value;
+
+            const url = `statistiche.php?ajax_op9=1&op9_parco=${encodeURIComponent(parco)}`;
+
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('risultato-op9').innerHTML = html;
+                })
+                .catch(error => console.error('Errore durante la chiamata AJAX OP9:', error));
+        });
+    </script>
 </body>
 
 </html>
