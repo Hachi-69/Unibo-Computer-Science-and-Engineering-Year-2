@@ -80,7 +80,7 @@ try {
                     mysqli_query($conn, $query_decesso);
                 }
             } else {
-                throw new Exception("L'animale non risulta avere una permanenza attiva in alcun parco da poter chiudere.");
+                throw new Exception("L'animale non risulta avere una permanenza attiva in alcun parco da poter chiudere, probabilmente è già stato rilasciato oppure deceduto.");
             }
         }
 
@@ -222,7 +222,6 @@ try {
             margin-bottom: 15px;
         }
 
-        /* Classe per nascondere i campi non necessari */
         .hidden-fields {
             display: none;
         }
@@ -282,20 +281,20 @@ try {
 
             <div class="transfer-section">
 
-                <h3>Fine Permanenza / Uscita (Opzionale)</h3>
+                <h3>Fine Permanenza (Opzionale)</h3>
                 <div class="help-text">Compila questa sezione solo se l'animale sta lasciando il parco attuale, viene
                     liberato o è deceduto.</div>
 
                 <label>Motivo di Uscita dal Parco</label>
                 <select name="azione_uscita" id="azione_uscita" onchange="gestisciCampiUscita()">
-                    <option value="">-- Nessuna Uscita (L'animale rimane qui) --</option>
+                    <option value="">-- Nessuna Uscita --</option>
                     <option value="Trasferimento">Trasferimento in altro parco</option>
                     <option value="Rilascio">Rilascio definitivo in natura</option>
                     <option value="Decesso">Decesso dell'animale</option>
                 </select>
 
                 <div id="campi_data" class="hidden-fields">
-                    <label>Data dell'Evento (Trasferimento/Rilascio/Decesso)</label>
+                    <label>Data dell'Evento</label>
                     <input type="date" name="data_evento" id="data_evento" max="<?php echo $max_data_evento; ?>"
                         min="<?php echo $data_nascita; ?>" />
                 </div>

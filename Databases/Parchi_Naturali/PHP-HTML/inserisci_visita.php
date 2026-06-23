@@ -49,6 +49,12 @@ try {
             throw new Exception("Errore: La data della visita ($data) non può essere precedente alla data di nascita dell'animale (" . $row_nascita['Data_Nascita'] . ").");
         }
 
+        $q_attivo = "SELECT Data_Inizio FROM PERMANENZA WHERE Nome_Specie_Fauna = '$specie' AND Nome_Esemplare = '$nome' AND Data_Fine IS NULL";
+        $res_attivo = mysqli_query($conn, $q_attivo);
+        if (mysqli_num_rows($res_attivo) === 0) {
+            throw new Exception("Errore Logico: Non puoi visitare un animale deceduto o rilasciato in natura (nessuna permanenza attiva trovata).");
+        }
+
         mysqli_begin_transaction($conn);
 
         try {
@@ -78,7 +84,11 @@ try {
         }
     }
 
-    $query_esemplari = "SELECT Nome_Specie_Fauna, Nome_Esemplare, Data_Nascita FROM ESEMPLARE ORDER BY Nome_Specie_Fauna ASC, Nome_Esemplare ASC";
+    $query_esemplari = "SELECT E.Nome_Specie_Fauna, E.Nome_Esemplare, E.Data_Nascita 
+                        FROM ESEMPLARE E
+                        JOIN PERMANENZA P ON E.Nome_Specie_Fauna = P.Nome_Specie_Fauna AND E.Nome_Esemplare = P.Nome_Esemplare
+                        WHERE P.Data_Fine IS NULL
+                        ORDER BY E.Nome_Specie_Fauna ASC, E.Nome_Esemplare ASC";
     $res_esemplari = mysqli_query($conn, $query_esemplari);
 
     $query_vets = "SELECT Matricola, Nome, Cognome FROM VETERINARIO ORDER BY Cognome ASC, Nome ASC";
