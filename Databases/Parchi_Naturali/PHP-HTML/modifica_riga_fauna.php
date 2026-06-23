@@ -56,11 +56,13 @@ try {
                     throw new Exception("Errore: La data dell'evento ($data_evento) non può essere precedente alla data in cui è arrivato qui (" . $curr_perm['Data_Inizio'] . ").");
                 }
 
+                // OP 4 - Registrazione dello spostamento di un esemplare da un parco ad un'altro. \\
                 $query_close = "UPDATE PERMANENZA
                                 SET Data_Fine = '$data_evento' 
                                 WHERE Nome_Specie_Fauna = '$specie_get' AND Nome_Esemplare = '$nome_get' AND Data_Fine IS NULL";
                 mysqli_query($conn, $query_close);
-
+                // OP 4 - Registrazione dello spostamento di un esemplare da un parco ad un'altro. \\
+                
                 if ($azione_uscita === 'Trasferimento') {
                     $nuovo_parco = mysqli_real_escape_string($conn, $_POST['nuovo_parco']);
                     $modalita = mysqli_real_escape_string($conn, $_POST['modalita_ingresso']);
