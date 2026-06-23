@@ -18,6 +18,8 @@ if (!$conn) {
 $specie = mysqli_real_escape_string($conn, $_GET['specie']);
 $nome = mysqli_real_escape_string($conn, $_GET['nome']);
 
+// OP 3 - Consultazione della scheda di un esemplare, che mostra i dati anagrafici, lo storico delle sue permanenze e 
+// la dieta prevista per la sua età. \\
 $query_esemplare = "SELECT * FROM ESEMPLARE WHERE Nome_Specie_Fauna = '$specie' AND Nome_Esemplare = '$nome'";
 $res_esemplare = mysqli_query($conn, $query_esemplare);
 $esemplare = mysqli_fetch_assoc($res_esemplare);
@@ -132,6 +134,8 @@ if (!$esemplare) {
             </thead>
             <tbody>
                 <?php
+                // OP 3 - Consultazione della scheda di un esemplare, che mostra i dati anagrafici, lo storico delle sue permanenze e 
+                // la dieta prevista per la sua età. \\
                 $q_perm = "SELECT * FROM PERMANENZA WHERE Nome_Specie_Fauna = '$specie' AND Nome_Esemplare = '$nome' ORDER BY Data_Inizio DESC";
                 $r_perm = mysqli_query($conn, $q_perm);
                 while ($p = mysqli_fetch_assoc($r_perm)) {
