@@ -53,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception("Errore: L'animale non può entrare nel parco prima di essere nato.");
         }
 
+        // OP 2 - Inserimento di un nuovo esemplare \\
         $q_insert_esemplare = "INSERT INTO ESEMPLARE (Nome_Specie_Fauna, Nome_Esemplare, Sesso, Data_Nascita, Stato_Salute, Totale_Visite_Subite) 
                                VALUES ('$specie', '$nome', '$sesso', '$nascita', '$salute', 0)";
 
@@ -62,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $q_insert_permanenza = "INSERT INTO PERMANENZA (Nome_Parco, Nome_Specie_Fauna, Nome_Esemplare, Data_Inizio, Data_Fine, Modalita_Ingresso) 
                                 VALUES ('$parco_destinazione', '$specie', '$nome', '$data_ingresso', NULL, '$modalita')";
+        // OP 2 - Inserimento di un nuovo esemplare \\
 
         if (!mysqli_query($conn, $q_insert_permanenza)) {
             mysqli_query($conn, "DELETE FROM ESEMPLARE WHERE Nome_Specie_Fauna = '$specie' AND Nome_Esemplare = '$nome'");
