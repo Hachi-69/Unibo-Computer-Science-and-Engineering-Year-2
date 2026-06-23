@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 21, 2026 at 02:50 PM
+-- Generation Time: Jun 23, 2026 at 04:51 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,20 +41,28 @@ INSERT INTO `ALIMENTO` (`Nome_Alimento`, `Categoria`) VALUES
 ('Calamari', 'Pesce'),
 ('Carcassa di ungulato', 'Carne'),
 ('Carne cruda mista', 'Carne'),
+('Crescione e erbe selvatiche', 'Vegetale'),
 ('Crostacei marini', 'Invertebrati'),
 ('Erba medica', 'Foraggio'),
+('Erba medica e fieno', 'Vegetale/Erbivoro'),
 ('Fieno di prato polifita', 'Foraggio'),
 ('Foglie e germogli', 'Foraggio'),
 ('Frutti di bosco', 'Frutta e Semi'),
+('Frutti di bosco e bacche', 'Vegetale/Frugivoro'),
 ('Ghiande e castagne', 'Frutta e Semi'),
+('Insetti e larve', 'Insettivoro'),
 ('Insetti misti', 'Invertebrati'),
 ('Integratore vitaminico', 'Integratori'),
+('Latte materno', 'Latticino/Svezzamento'),
 ('Lombrichi', 'Invertebrati'),
 ('Meduse', 'Invertebrati'),
 ('Noci e nocciole', 'Frutta e Semi'),
 ('Pesce azzurro', 'Pesce'),
 ('Pesce d\'acqua dolce', 'Pesce'),
+('Pesce di fiume', 'Pesce'),
+('Piccoli mammiferi e carcasse', 'Carne'),
 ('Piccoli roditori', 'Carne'),
+('Radici e tuberi', 'Vegetale'),
 ('Semi misti per uccelli', 'Frutta e Semi'),
 ('Tuberi e radici', 'Foraggio');
 
@@ -74,10 +82,25 @@ CREATE TABLE `Cresce` (
 --
 
 INSERT INTO `Cresce` (`Nome_Parco`, `Nome_Specie_Flora`) VALUES
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Acero di Lobelius'),
 ('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Acero montano'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Agrifoglio'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Betulla bianca'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Bucaneve'),
 ('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Elleboro nero'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Faggio'),
 ('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Faggio europeo'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Genziana maggiore'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Giaggiolo della Marsica'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Giglio rosso'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Ginepro nano'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Orchidea selvatica'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Pino nero di Villetta Barrea'),
 ('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Primula appenninica'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Scarpetta di Venere'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Sorbo montano'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Stella alpina dell\'Appennino'),
+('Parco Nazionale d\'Abruzzo, Lazio e Molise', 'Tasso'),
 ('Parco Nazionale d\'Aspromonte', 'Castagno'),
 ('Parco Nazionale d\'Aspromonte', 'Faggio europeo'),
 ('Parco Nazionale d\'Aspromonte', 'Ginestra odorata'),
@@ -136,12 +159,15 @@ INSERT INTO `Dieta` (`Nome_Alimento`, `Nome_Specie_Fauna`, `Fascia_Eta`) VALUES
 ('Carne cruda mista', 'Aquila reale', 'Cucciolo'),
 ('Piccoli roditori', 'Aquila reale', 'Tutte le eta'),
 ('Erba medica', 'Camoscio alpino', 'Tutte le eta'),
+('Crescione e erbe selvatiche', 'Camoscio d\'Abruzzo', 'Adulto'),
 ('Erba medica', 'Camoscio d\'Abruzzo', 'Tutte le eta'),
+('Erba medica e fieno', 'Camoscio d\'Abruzzo', 'Adulto'),
+('Latte materno', 'Camoscio d\'Abruzzo', 'Cucciolo'),
 ('Foglie e germogli', 'Capriolo', 'Tutte le eta'),
 ('Calamari', 'Caretta caretta', 'Adulto'),
 ('Meduse', 'Caretta caretta', 'Tutte le eta'),
 ('Blocco di sali minerali', 'Cervo nobile', 'Adulto'),
-('Fieno di prato polifita', 'Cervo nobile', 'Inverno'),
+('Fieno di prato polifita', 'Cervo nobile', 'Adulto'),
 ('Foglie e germogli', 'Cervo nobile', 'Tutte le eta'),
 ('Ghiande e castagne', 'Cinghiale', 'Adulto'),
 ('Tuberi e radici', 'Cinghiale', 'Tutte le eta'),
@@ -152,6 +178,8 @@ INSERT INTO `Dieta` (`Nome_Alimento`, `Nome_Specie_Fauna`, `Fascia_Eta`) VALUES
 ('Piccoli roditori', 'Gatto selvatico', 'Tutte le eta'),
 ('Carcassa di ungulato', 'Gipeto', 'Tutte le eta'),
 ('Carcassa di ungulato', 'Grifone', 'Tutte le eta'),
+('Piccoli mammiferi e carcasse', 'Gufo reale', 'Adulto'),
+('Piccoli mammiferi e carcasse', 'Gufo reale', 'Cucciolo'),
 ('Piccoli roditori', 'Gufo reale', 'Tutte le eta'),
 ('Tuberi e radici', 'Istrice', 'Tutte le eta'),
 ('Carne cruda mista', 'Lince eurasiatica', 'Adulto'),
@@ -163,6 +191,12 @@ INSERT INTO `Dieta` (`Nome_Alimento`, `Nome_Specie_Fauna`, `Fascia_Eta`) VALUES
 ('Tuberi e radici', 'Marmotta delle Alpi', 'Tutte le eta'),
 ('Carne cruda mista', 'Orso bruno marsicano', 'Adulto'),
 ('Frutti di bosco', 'Orso bruno marsicano', 'Tutte le eta'),
+('Frutti di bosco e bacche', 'Orso bruno marsicano', 'Adulto'),
+('Frutti di bosco e bacche', 'Orso bruno marsicano', 'Cucciolo'),
+('Insetti e larve', 'Orso bruno marsicano', 'Adulto'),
+('Latte materno', 'Orso bruno marsicano', 'Cucciolo'),
+('Piccoli mammiferi e carcasse', 'Orso bruno marsicano', 'Adulto'),
+('Radici e tuberi', 'Orso bruno marsicano', 'Adulto'),
 ('Tuberi e radici', 'Orso bruno marsicano', 'Adulto'),
 ('Lombrichi', 'Salamandra pezzata', 'Tutte le eta'),
 ('Ghiande e castagne', 'Scoiattolo rosso', 'Adulto'),
@@ -223,14 +257,14 @@ INSERT INTO `ESEMPLARE` (`Nome_Specie_Fauna`, `Nome_Esemplare`, `Sesso`, `Data_N
 ('Cinghiale', 'CIN-04', 'F', '2021-08-15', 'Buono', 0),
 ('Cinghiale', 'CIN-05', 'M', '2020-04-20', 'Sotto osservazione', 2),
 ('Cinghiale', 'CIN-06', 'F', '2019-12-05', 'Ottimo', 0),
-('Cinghiale', 'Kevin', 'M', '2021-05-15', 'Ottimo', 1),
+('Cinghiale', 'Kevin', 'M', '2021-05-15', 'Critico', 2),
 ('Falco pellegrino', 'FAL-01', 'M', '2020-08-10', 'Ottimo', 0),
 ('Falco pellegrino', 'FAL-02', 'F', '2019-07-22', 'In convalescenza', 2),
 ('Foca monaca', 'FOC-01', 'F', '2014-12-10', 'Sotto osservazione', 3),
 ('Gallo cedrone', 'GAL-01', 'M', '2021-05-05', 'Buono', 0),
 ('Gatto selvatico', 'GAT-01', 'M', '2021-11-11', 'Buono', 0),
 ('Gatto selvatico', 'GAT-02', 'F', '2022-01-20', 'Ottimo', 0),
-('Gatto selvatico', 'Luca', 'M', '2020-03-10', 'Sotto osservazione', 1),
+('Gatto selvatico', 'Luca', 'M', '2020-03-10', 'In convalescenza', 3),
 ('Gipeto', 'GIP-01', 'M', '2015-08-20', 'Ottimo', 2),
 ('Gipeto', 'GIP-02', 'F', '2018-05-15', 'Sotto osservazione', 3),
 ('Grifone', 'GRI-01', 'F', '2018-02-28', 'Buono', 2),
@@ -519,30 +553,44 @@ CREATE TABLE `SPECIE_FLORA` (
 
 INSERT INTO `SPECIE_FLORA` (`Nome_Specie_Flora`, `Tipo`, `Stagione_Fioritura`) VALUES
 ('Abete rosso', 'Albero', 'Primavera'),
+('Acero di Lobelius', 'Albero', 'Primavera'),
 ('Acero montano', 'Albero', 'Primavera'),
+('Agrifoglio', 'Arbusto', 'Primavera'),
+('Betulla bianca', 'Albero', 'Primavera'),
+('Bucaneve', 'Fiore', 'Fine Inverno'),
 ('Castagno', 'Albero', 'Estate'),
 ('Ciclamino napoletano', 'Pianta erbacea', 'Autunno'),
 ('Corbezzolo', 'Arbusto', 'Autunno'),
 ('Elleboro nero', 'Pianta erbacea', 'Inverno'),
 ('Erica arborea', 'Arbusto', 'Primavera'),
+('Faggio', 'Albero', 'Primavera'),
 ('Faggio europeo', 'Albero', 'Primavera'),
 ('Genziana maggiore', 'Pianta erbacea', 'Estate'),
+('Giaggiolo della Marsica', 'Fiore', 'Primavera'),
 ('Giglio di mare', 'Pianta erbacea', 'Estate'),
+('Giglio rosso', 'Fiore', 'Estate'),
 ('Ginepro coccolone', 'Arbusto', 'Primavera'),
+('Ginepro nano', 'Arbusto', 'Estate'),
 ('Ginestra odorata', 'Arbusto', 'Primavera'),
 ('Leccio', 'Albero', 'Primavera'),
 ('Mirto', 'Arbusto', 'Estate'),
 ('Oleandro selvatico', 'Arbusto', 'Estate'),
 ('Orchidea piramidale', 'Pianta erbacea', 'Primavera'),
+('Orchidea selvatica', 'Fiore', 'Primavera'),
 ('Papavero alpino', 'Pianta erbacea', 'Estate'),
 ('Peonia selvatica', 'Pianta erbacea', 'Primavera'),
 ('Pino loricato', 'Albero', 'Primavera'),
 ('Pino marittimo', 'Albero', 'Primavera'),
+('Pino nero di Villetta Barrea', 'Albero', 'Primavera'),
 ('Primula appenninica', 'Pianta erbacea', 'Primavera'),
 ('Quercia da sughero', 'Albero', 'Primavera'),
 ('Rododendro alpino', 'Arbusto', 'Estate'),
 ('Rosmarino selvatico', 'Arbusto', 'Primavera'),
-('Stella alpina', 'Pianta erbacea', 'Estate');
+('Scarpetta di Venere', 'Fiore', 'Tarda Primavera'),
+('Sorbo montano', 'Albero', 'Primavera'),
+('Stella alpina', 'Pianta erbacea', 'Estate'),
+('Stella alpina dell\'Appennino', 'Pianta erbacea', 'Estate'),
+('Tasso', 'Albero', 'Primavera');
 
 -- --------------------------------------------------------
 
@@ -583,7 +631,7 @@ CREATE TABLE `VISITA_MEDICA` (
   `Nome_Esemplare` varchar(100) NOT NULL,
   `Data` date NOT NULL,
   `Ora` time NOT NULL,
-  `Esito` varchar(50) NOT NULL,
+  `Esito` varchar(255) NOT NULL,
   `Terapia_Prescritta` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -647,7 +695,10 @@ INSERT INTO `VISITA_MEDICA` (`Matricola_Vet`, `Nome_Specie_Fauna`, `Nome_Esempla
 ('VET005', 'Marmotta delle Alpi', 'MAR-04', '2020-04-10', '11:15:00', 'Risveglio letargo difficoltoso - Sottopeso', 'Integrazione vitaminica e foraggiamento'),
 ('VET005', 'Marmotta delle Alpi', 'MAR-04', '2021-08-22', '10:00:00', 'Dermatite parassitaria (Acariasi)', 'Trattamento acaricida spot-on'),
 ('VET006', 'Cinghiale', 'Kevin', '2023-02-10', '13:00:00', 'Ispezione HACCP superata - Massa grassa ideale', 'Premio: Mezza piadina crudo e squacquerone'),
-('VET006', 'Gatto selvatico', 'Luca', '2023-04-05', '12:30:00', 'Cali di zuccheri e spossatezza', 'Integrazione urgente: Crescione erbe e salsiccia');
+('VET006', 'Cinghiale', 'Kevin', '2026-06-22', '14:49:00', 'Intossicazione alimentare correlata a scarsa igiene ambientale nell’area circostante l’abitazione', 'Trasferimento in area protetta il prima possibile'),
+('VET006', 'Gatto selvatico', 'Luca', '2023-04-05', '12:30:00', 'Cali di zuccheri e spossatezza', 'Integrazione urgente: Crescione erbe e salsiccia'),
+('VET006', 'Gatto selvatico', 'Luca', '2026-06-08', '03:00:00', 'stato di ansia perenne dovuto ai troppi esami', 'Vacanza al mare di una settimana'),
+('VET006', 'Gatto selvatico', 'Luca', '2026-06-22', '14:47:00', 'Ripresa totale della bestia dopo il superamento degli esami', 'Riposo');
 
 --
 -- Indexes for dumped tables
