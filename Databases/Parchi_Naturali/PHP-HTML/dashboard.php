@@ -42,11 +42,15 @@ $matricola = $_SESSION['matricola'];
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
 
         .header-panel h3 {
             margin: 0;
             color: #FFB100;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .logout-btn {
